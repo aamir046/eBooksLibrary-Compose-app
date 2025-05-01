@@ -61,13 +61,19 @@ dependencies {
 
     implementation(libs.accompanist.appcompat.theme)
     implementation(libs.accompanist.swiperefresh)
-
+//ViewModel
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
-
+//ViewModelScope
+    implementation(libs.lifecycle.viewmodel.ktx)
+//Compose Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.testing)
-
+//Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.test)
+//Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+
 }
