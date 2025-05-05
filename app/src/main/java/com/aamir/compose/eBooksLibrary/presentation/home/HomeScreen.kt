@@ -2,12 +2,11 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,14 +30,16 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel()
 ) {
-    val state by viewModel.books.collectAsStateWithLifecycle()
-    HomeScreen()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    HomeScreen(
+        uiState = uiState,
+        modifier = Modifier
+    )
 }
-
 
 @Composable
 fun HomeScreen(
-    state: List<Book> = emptyList(),
+    uiState: HomeScreenState = HomeScreenState(),
     modifier: Modifier = Modifier
 ){
     Scaffold(
@@ -53,27 +54,16 @@ fun HomeScreen(
             .fillMaxSize()
             .background(Color.White)) {
 
-            Column {
-                Card(
-                    modifier = modifier
-                        .height(150.dp)
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    Box(modifier = modifier.fillMaxSize().background(Color.Gray)){
-                        Text(modifier = modifier.align(Alignment.Center), text = "Welcome Home", style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 40.sp,
-                            color = Color.White)
-                    }
-                }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 16.dp)
+            ) {
+                items(uiState.screenSectionItems){item->
 
-                LazyColumn {
-                    items(state.size) { index->
-                        Text(state[index].title, modifier = Modifier.padding(10.dp))
-                    }
                 }
             }
+
+
 
         }
     }
@@ -82,7 +72,5 @@ fun HomeScreen(
 @Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
 @Composable
 fun GreetingPreview() {
-    HomeScreen(
-     state =listOf(Book("J.R.R. Tolkien", "AlgoLogics", "2022", "An Amazing Book for Clean Code Programming"))
-    )
+    HomeScreen()
 }
