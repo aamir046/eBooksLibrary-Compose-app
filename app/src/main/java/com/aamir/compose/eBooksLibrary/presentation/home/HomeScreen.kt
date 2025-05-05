@@ -50,8 +50,7 @@ fun HomeScreen(
             .background(Color.White)) {
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(uiState.screenSectionItems){item->
                     when (item) {
