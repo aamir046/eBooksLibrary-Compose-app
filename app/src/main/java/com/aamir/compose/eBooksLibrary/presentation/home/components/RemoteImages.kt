@@ -15,7 +15,8 @@ fun LoadBookCoverImage(
     contentDescription: String? = null,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
-    placeholderRes: Int = R.drawable.cover_image
+    placeholderRes: Int = R.drawable.cover_image,
+    errorRes: Int = R.drawable.cover_image,
 ) {
     val context = LocalContext.current
 
@@ -27,6 +28,7 @@ fun LoadBookCoverImage(
         contentDescription = contentDescription,
         contentScale = contentScale,
         placeholder = painterResource(id = placeholderRes),
-        modifier = modifier
+        modifier = modifier,
+        error = painterResource(id = placeholderRes)
     )
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -62,6 +61,13 @@ fun UpComingBooksLaunchPager(books:List<Book>){
     Column(modifier = Modifier
         .fillMaxWidth()
         .wrapContentSize(align = Alignment.Center)) {
+        Text(
+            text = "Upcoming Books",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+        )
+
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
@@ -125,6 +131,8 @@ fun UpComingBooksLaunchCard(book: Book){
                     text = book.title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 20.dp).fillMaxWidth()
                 )
 

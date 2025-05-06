@@ -39,9 +39,9 @@ fun HorizontalBooksListing(
     ) {
         Text(
             text = rowTitle,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 8.dp, start = 12.dp, end = 12.dp)
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )
 
        LazyRow(modifier = modifier.fillMaxSize()) {
@@ -61,7 +61,7 @@ fun ItemBooksListingHorizontal(
         modifier=Modifier
         .fillMaxHeight()
         .width(175.dp)
-        .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+        .padding(horizontal = 8.dp)
     ) {
         LoadBookCoverImage(
             url = book.imageUrl,
@@ -76,7 +76,7 @@ fun ItemBooksListingHorizontal(
 
         Text(
             text = book.title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.labelLarge,
             color = Color.DarkGray,
             fontWeight = FontWeight.SemiBold,
             maxLines = 1,
@@ -86,7 +86,7 @@ fun ItemBooksListingHorizontal(
 
         Text(
             text = book.author,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelMedium,
             color = Color.DarkGray,
             fontWeight = FontWeight.Normal,
             maxLines = 1,
