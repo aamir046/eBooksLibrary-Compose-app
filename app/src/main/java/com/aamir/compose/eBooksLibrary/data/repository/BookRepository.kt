@@ -101,7 +101,7 @@ class BookRepository {
                     title = "The Da Vinci Code",
                     year = "2003",
                     description = "A symbologist uncovers secrets hidden in art and history.",
-                    imageUrl = "https://images.gr-assets.com/books/1579621268l/968.jpg",
+                    imageUrl = "https://danbrown.com/wp-content/uploads/2024/10/Dan-Brown_The-Da-Vinci-Code-book-cover_2024.jpg",
                     type = "POPULAR"
                 ),
                 Book(
@@ -133,7 +133,7 @@ class BookRepository {
                     title = "The Handmaid’s Tale",
                     year = "1985",
                     description = "A dystopian society where women are forced into childbearing servitude.",
-                    imageUrl = "https://images.gr-assets.com/books/1578028271l/38447.jpg",
+                    imageUrl = "https://upload.wikimedia.org/wikipedia/en/1/18/TheHandmaidsTale%281stEd%29.jpg",
                     type = "TOP_SEARCHED"
                 ),
                 Book(
@@ -165,7 +165,7 @@ class BookRepository {
                     title = "Anna Karenina",
                     year = "1878",
                     description = "A tragic romance exploring Russian high society.",
-                    imageUrl = "https://images.gr-assets.com/books/1327868529l/15823480.jpg",
+                    imageUrl = "https://www.gutenberg.org/cache/epub/1399/pg1399.cover.medium.jpg",
                     type = "NEW_RELEASED"
                 )
             )

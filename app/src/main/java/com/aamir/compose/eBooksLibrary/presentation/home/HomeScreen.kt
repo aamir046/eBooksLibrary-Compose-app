@@ -38,7 +38,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     uiState: HomeScreenState = HomeScreenState(),
     modifier: Modifier = Modifier
-){
+) {
     Scaffold(
         topBar = {
             HomeAppBar()
@@ -46,21 +46,40 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
 
-        Box(modifier = modifier
-            .padding(innerPadding)
-            .fillMaxSize()
-            .background(Color.White)) {
+        Box(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(uiState.screenSectionItems){item->
+                items(uiState.screenSectionItems) { item ->
                     when (item) {
-                        is HomeScreenSectionItem.UpComingBooks -> SectionItemUpcomingBooks(item.upComingBooks)
-                        is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(rowTitle = uiState.titleRecommendedBooks , books = item.recommendedBooks)
-                        is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(rowTitle = uiState.titlePopularBooks , books = item.popularBooks)
-                        is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(rowTitle = uiState.titleTopSearchedBooks , books = item.topSearchedBooks)
-                        is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(rowTitle = uiState.tileNewReleasedBooks , books = item.newReleasedBooks)
+                        is HomeScreenSectionItem.UpComingBooks -> SectionItemUpcomingBooks(
+                           books = item.upComingBooks
+                        )
+                        is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(
+                            rowTitle = uiState.titleRecommendedBooks,
+                            books = item.recommendedBooks
+                        )
+
+                        is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(
+                            rowTitle = uiState.titlePopularBooks,
+                            books = item.popularBooks
+                        )
+
+                        is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(
+                            rowTitle = uiState.titleTopSearchedBooks,
+                            books = item.topSearchedBooks
+                        )
+
+                        is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(
+                            rowTitle = uiState.tileNewReleasedBooks,
+                            books = item.newReleasedBooks
+                        )
                     }
                 }
             }
