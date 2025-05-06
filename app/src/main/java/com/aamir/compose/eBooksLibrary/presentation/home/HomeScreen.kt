@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HomeAppBar
+import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListing
+import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListingPreview
 import com.aamir.compose.eBooksLibrary.presentation.home.components.SectionItemUpcomingBooks
 import com.aamir.compose.eBooksLibrary.presentation.home.components.UpComingBooksLaunchCard
 import org.koin.androidx.compose.koinViewModel
@@ -55,13 +57,10 @@ fun HomeScreen(
                 items(uiState.screenSectionItems){item->
                     when (item) {
                         is HomeScreenSectionItem.UpComingBooks -> SectionItemUpcomingBooks(item.upComingBooks)
-//                        is HomeScreenSectionItem.RecommendedBooks -> RecommendedBannerPager(item.books)
-//                        is HomeScreenSectionItem.PopularBooks -> HorizontalBookSection(item.title, item.books)
-//                        is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBookSection(item.title, item.books)
-//                        is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBookSection(item.title, item.books)
-                        else -> {
-
-                        }
+                        is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(rowTitle = uiState.titleRecommendedBooks , books = item.recommendedBooks)
+                        is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(rowTitle = uiState.titlePopularBooks , books = item.popularBooks)
+                        is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(rowTitle = uiState.titleTopSearchedBooks , books = item.topSearchedBooks)
+                        is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(rowTitle = uiState.tileNewReleasedBooks , books = item.newReleasedBooks)
                     }
                 }
             }
@@ -71,6 +70,6 @@ fun HomeScreen(
 
 @Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
 @Composable
-fun GreetingPreview() {
+fun HomeScreenPreview() {
     HomeScreen()
 }

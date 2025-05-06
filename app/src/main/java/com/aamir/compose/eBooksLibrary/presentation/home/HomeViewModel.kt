@@ -21,11 +21,23 @@ class HomeViewModel(private val bookRepository: BookRepository) : ViewModel() {
 
     val uiState = _uiState.onStart {
         fetchBooks()
+        setTitleForHomeScreenSections()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000L),
         _uiState.value
     )
+
+    private fun setTitleForHomeScreenSections() {
+        _uiState.update {
+            it.copy(
+                titleRecommendedBooks = "Recommended Books",
+                titlePopularBooks = "Popular & Trending Books",
+                titleTopSearchedBooks = "Top Searched Books",
+                tileNewReleasedBooks = "Newly Arrived",
+            )
+        }
+    }
 
     private fun fetchBooks() {
         bookFetchJob?.cancel()
@@ -42,12 +54,20 @@ class HomeViewModel(private val bookRepository: BookRepository) : ViewModel() {
     }
 
     private fun createHomeSectionsItemList(books:List<Book>):List<HomeScreenSectionItem>{
+
         return listOf(
-            HomeScreenSectionItem.UpComingBooks(books),
-            HomeScreenSectionItem.RecommendedBooks(books),
-            HomeScreenSectionItem.PopularBooks(books),
-            HomeScreenSectionItem.TopSearchedBooks(books),
-            HomeScreenSectionItem.NewReleasedBooks(books),
+            HomeScreenSectionItem.UpComingBooks(books.filter { it.type == BookListingType.UPCOMING.type }),
+            HomeScreenSectionItem.RecommendedBooks(books.filter { it.type == BookListingType.RECOMMENDED.type }),
+            HomeScreenSectionItem.PopularBooks(books.filter { it.type == BookListingType.POPULAR.type }),
+            HomeScreenSectionItem.TopSearchedBooks(books.filter { it.type == BookListingType.TOP_SEARCHED.type }),
+            HomeScreenSectionItem.NewReleasedBooks(books.filter { it.type == BookListingType.NEW_RELEASED.type }),
         )
     }
+}
+enum class BookListingType(val type:String) {
+    UPCOMING("UPCOMING"),
+    RECOMMENDED("RECOMMENDED"),
+    POPULAR("POPULAR"),
+    TOP_SEARCHED("TOP_SEARCHED"),
+    NEW_RELEASED("NEW_RELEASED")
 }

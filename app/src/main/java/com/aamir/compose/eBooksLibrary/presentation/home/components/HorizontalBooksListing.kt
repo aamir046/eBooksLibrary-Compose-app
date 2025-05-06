@@ -28,9 +28,9 @@ import com.aamir.compose.eBooksLibrary.domain.Book
 
 @Composable
 fun HorizontalBooksListing(
-    modifier: Modifier,
-    rowTitle:String,
-    books:List<Book>
+    modifier: Modifier = Modifier,
+    rowTitle:String = "Title",
+    books:List<Book> = emptyList()
 ){
     Column(
         modifier = modifier
@@ -61,7 +61,7 @@ fun ItemBooksListingHorizontal(
         modifier=Modifier
         .fillMaxHeight()
         .width(175.dp)
-        .padding(top = 8.dp, start = 8.dp)
+        .padding(top = 8.dp, start = 8.dp, end = 8.dp)
     ) {
         LoadBookCoverImage(
             url = book.imageUrl,
@@ -117,7 +117,7 @@ fun HorizontalBooksListingPreview() {
                         title = "1984",
                         year = "1949",
                         description = "A chilling vision of a dystopian world under total surveillance.",
-                        imageUrl = "https://images.gr-assets.com/books/1532714506l/5470.jpg"
+                        imageUrl = "https://images.penguinrandomhouse.com/cover/9780679417392"
                     ),
                     Book(
                         author = "J.K. Rowling",
