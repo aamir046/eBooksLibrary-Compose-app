@@ -14,7 +14,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_regular)),
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
+        lineHeight = 18.sp,
         letterSpacing = 0.5.sp
     ),
 
@@ -22,7 +22,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_bold)),
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
-        lineHeight = 29.sp,
+        lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
 
@@ -30,7 +30,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_semibold)),
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
-        lineHeight = 28.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
 
@@ -38,7 +38,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_semibold)),
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-        lineHeight = 25.sp,
+        lineHeight = 22.sp,
         letterSpacing = 0.sp
     ),
 
@@ -46,7 +46,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_light)),
         fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
-        lineHeight = 16.sp,
+        lineHeight = 12.sp,
         letterSpacing = 0.5.sp
     ),
 
@@ -54,7 +54,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.open_sans_regular)),
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
-        lineHeight = 16.sp,
+        lineHeight = 14.sp,
         letterSpacing = 0.5.sp
     ),
 
@@ -63,7 +63,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.sp
     ),
 
 )
