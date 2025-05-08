@@ -1,5 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.home.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -72,11 +74,12 @@ fun ItemBooksListingHorizontal(
             url = book.imageUrl,
             contentDescription = "Book Cover Picture",
             modifier = Modifier
-                .clip(shape = RoundedCornerShape(15.dp))
+                .shadow(elevation = 8.dp, shape = RoundedCornerShape(10.dp))
                 .clipToBounds()
                 .fillMaxWidth()
-                .height(200.dp),
-            contentScale = ContentScale.Crop,
+                .height(200.dp)
+                .border(1.dp, Color.LightGray, RoundedCornerShape(10.dp)),
+            contentScale = ContentScale.FillBounds,
         )
 
         Text(

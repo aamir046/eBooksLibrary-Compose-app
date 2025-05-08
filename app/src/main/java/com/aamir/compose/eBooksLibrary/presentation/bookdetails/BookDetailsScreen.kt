@@ -1,6 +1,7 @@
 package com.aamir.compose.eBooksLibrary.presentation.bookdetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,8 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -76,12 +76,12 @@ fun BookDetailsScreen(
                     url = uiState.book?.imageUrl ?: "",
                     contentDescription = "Book Cover Picture",
                     modifier = Modifier
-                        .clip(shape = RoundedCornerShape(25.dp))
-                        .clipToBounds()
+                        .shadow(elevation = 8.dp, shape = RoundedCornerShape(20.dp))
                         .fillMaxWidth(0.61f)
                         .fillMaxHeight(0.47f)
-                        .align(Alignment.CenterHorizontally),
-                    contentScale = ContentScale.Crop,
+                        .align(Alignment.CenterHorizontally)
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(20.dp)),
+                    contentScale = ContentScale.FillBounds,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(

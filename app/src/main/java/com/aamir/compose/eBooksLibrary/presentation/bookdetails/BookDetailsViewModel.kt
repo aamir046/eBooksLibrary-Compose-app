@@ -21,20 +21,6 @@ class BookDetailsViewModel:ViewModel(){
         _uiState.value
     )
 
-//    private fun updateBookDetails() {
-//        _uiState.update {
-//            it.copy(
-//                book = Book(
-//                    author = "J.R.R. Tolkien",
-//                    title = "The Lord of the Rings",
-//                    year = "1954",
-//                    description = "An epic fantasy quest to destroy the One Ring and defeat evil.",
-//                    imageUrl = "https://images.gr-assets.com/books/1566425108l/33.jpg"
-//                )
-//            )
-//        }
-//    }
-
     fun onSelectBook(selectedBook:Book?) {
         selectedBook?.let {book->
             _uiState.update {

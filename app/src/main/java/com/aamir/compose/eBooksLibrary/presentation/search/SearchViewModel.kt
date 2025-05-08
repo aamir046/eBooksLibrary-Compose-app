@@ -1,0 +1,21 @@
+package com.aamir.compose.eBooksLibrary.presentation.search
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+
+class SearchViewModel:ViewModel() {
+    private val _uiState = MutableStateFlow(SearchScreenState())
+    val uiState: StateFlow<SearchScreenState> = _uiState.onStart {
+
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        _uiState.value
+    )
+
+}

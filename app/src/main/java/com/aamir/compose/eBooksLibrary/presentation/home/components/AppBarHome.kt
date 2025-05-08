@@ -42,77 +42,15 @@ import com.aamir.compose.eBooksLibrary.presentation.theme.Purple80
 @Composable
 fun HomeAppBar(
     onNotificationsClick: (Boolean) -> Unit = {},
-    onSearchQuery: (String) -> Unit = {},
-    isSearchingEnabled:(Boolean)->Unit={}
+    onSearchClick: (Boolean) -> Unit = {}
 ){
-    var searchQuery by remember { mutableStateOf("") }
-    var isSearching by remember { mutableStateOf(false) }
-    isSearchingEnabled(isSearching)
-    onSearchQuery(searchQuery)
     TopAppBar(
         title = {
-            if (isSearching) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp, bottom = 8.dp, end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically // Aligns the cancel text with the input field
-                ) {
-                    BasicTextField(
-                        value = searchQuery,
-                        onValueChange = {
-                            searchQuery = it
-                        },
-                        singleLine = true,
-                        cursorBrush = SolidColor(Color.White),
-                        textStyle = MaterialTheme.typography.labelLarge.copy(
-                            textAlign = TextAlign.Start,
-                            color = Color.White
-                        ),
-                        modifier = Modifier
-                            .weight(1f) // Takes up available space before the cancel button
-                            .background(Purple80, shape = RoundedCornerShape(size = 10.dp))
-                            .border(1.dp, color = Purple80, shape = RoundedCornerShape(size = 10.dp)),
-                        decorationBox = { innerTextField ->
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 10.dp), // Padding for both the input text and placeholder
-                                contentAlignment = Alignment.CenterStart // Vertically center the text
-                            ) {
-                                if (searchQuery.isEmpty()) {
-                                    Text(
-                                        text = "Search Notes",
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = Color.Gray,
-                                        textAlign = TextAlign.Start,
-                                        modifier = Modifier.padding(vertical = 13.dp)
-                                    )
-                                }
-                                innerTextField() // The text entered inside the BasicTextField
-                            }
-                        }
-                    )
-                    Text(
-                        text = "Cancel",
-                        color = Color.White,
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .clickable {
-                                searchQuery = "" // Clear the search query
-                                onSearchQuery("") // Reset the search
-                                isSearching = false // Close the search mode
-                            },
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
-            } else {
-                Text(
-                    text = "Home",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            Text(
+                text = "Home",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
         },
         modifier = Modifier.fillMaxWidth(),
         colors = TopAppBarDefaults.topAppBarColors(
@@ -120,13 +58,12 @@ fun HomeAppBar(
             titleContentColor = Color.Black
         ),
         actions = {
-            if(!isSearching) {
                 IconButton(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .height(40.dp)
                         .width(40.dp),
-                    onClick = { isSearching = true }
+                    onClick = { onSearchClick.invoke(true) }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
@@ -146,7 +83,6 @@ fun HomeAppBar(
                         contentDescription = "Notifications"
                     )
                 }
-            }
         }
     )
 }

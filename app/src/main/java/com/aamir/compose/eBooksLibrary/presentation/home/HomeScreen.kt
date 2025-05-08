@@ -26,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: HomeViewModel,
     onBookClick: (Book) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
