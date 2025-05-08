@@ -1,5 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,12 +32,13 @@ import com.aamir.compose.eBooksLibrary.domain.Book
 fun HorizontalBooksListing(
     modifier: Modifier = Modifier,
     rowTitle:String = "Title",
-    books:List<Book> = emptyList()
+    books:List<Book> = emptyList(),
+    onBookClick: (Book) -> Unit = {}
 ){
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(320.dp)
+            .wrapContentHeight()
     ) {
         Text(
             text = rowTitle,
@@ -46,7 +49,7 @@ fun HorizontalBooksListing(
 
        LazyRow(modifier = modifier.fillMaxSize()) {
            items(books){book->
-               ItemBooksListingHorizontal(book)
+               ItemBooksListingHorizontal(book, onBookClick)
            }
        }
 
@@ -55,13 +58,15 @@ fun HorizontalBooksListing(
 
 @Composable
 fun ItemBooksListingHorizontal(
-    book:Book
+    book:Book,
+    onBookClick: (Book) -> Unit
 ){
     Column(
         modifier=Modifier
-        .fillMaxHeight()
+        .wrapContentHeight()
         .width(175.dp)
         .padding(horizontal = 8.dp)
+        .clickable(enabled = true) { onBookClick(book) }
     ) {
         LoadBookCoverImage(
             url = book.imageUrl,
@@ -70,7 +75,7 @@ fun ItemBooksListingHorizontal(
                 .clip(shape = RoundedCornerShape(15.dp))
                 .clipToBounds()
                 .fillMaxWidth()
-                .fillMaxHeight(0.8f),
+                .height(200.dp),
             contentScale = ContentScale.Crop,
         )
 

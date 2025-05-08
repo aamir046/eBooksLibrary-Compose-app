@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,24 +27,25 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.R
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.BookDetailsAppBar
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.RatingBar
 import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookDetailsScreenRoot(
-    viewModel: BookDetailsViewModel = koinViewModel()
+    viewModel: BookDetailsViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     BookDetailsScreen(
-        uiState = BookDetailsScreenState(),
+        uiState = uiState,
         modifier = Modifier
     )
 }
@@ -61,7 +63,10 @@ fun BookDetailsScreen(
         },
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding).fillMaxSize().background(Color.White)){
+        Box(modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+            .background(Color.White)){
             Column(
                 modifier = modifier
                     .fillMaxSize()
@@ -74,20 +79,21 @@ fun BookDetailsScreen(
                         .clip(shape = RoundedCornerShape(25.dp))
                         .clipToBounds()
                         .fillMaxWidth(0.61f)
-                        .fillMaxHeight(0.5f)
+                        .fillMaxHeight(0.47f)
                         .align(Alignment.CenterHorizontally),
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
-                    modifier = modifier.fillMaxWidth().wrapContentHeight(),
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = uiState.book?.title ?: "",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = Color.DarkGray,
-                        fontWeight = FontWeight.SemiBold,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
@@ -110,9 +116,8 @@ fun BookDetailsScreen(
 
                 Text(
                     text = uiState.book?.author ?: "",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     color = Color.DarkGray,
-                    fontWeight = FontWeight.Normal,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.fillMaxWidth()
@@ -123,9 +128,8 @@ fun BookDetailsScreen(
                 Column {
                     Text(
                         text = "Review",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = Color.DarkGray,
-                        fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -136,9 +140,8 @@ fun BookDetailsScreen(
 
                 Text(
                     text = "Synopsis",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = Color.DarkGray,
-                    fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.fillMaxWidth()
@@ -148,8 +151,9 @@ fun BookDetailsScreen(
                     text = uiState.book?.description ?: "",
                     style = MaterialTheme.typography.labelLarge,
                     color = Color.DarkGray,
-                    fontWeight = FontWeight.Normal,
-                    modifier = modifier.fillMaxWidth()
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
                 )
             }
         }

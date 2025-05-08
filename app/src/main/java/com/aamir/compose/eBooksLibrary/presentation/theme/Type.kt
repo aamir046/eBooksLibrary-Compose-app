@@ -44,7 +44,7 @@ val Typography = Typography(
 
     labelSmall = TextStyle(
         fontFamily = FontFamily(Font(R.font.open_sans_light)),
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.5.sp
@@ -52,7 +52,7 @@ val Typography = Typography(
 
     labelMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.open_sans_regular)),
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 14.sp,
         letterSpacing = 0.5.sp
@@ -60,7 +60,7 @@ val Typography = Typography(
 
     labelLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.open_sans_regular)),
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.sp

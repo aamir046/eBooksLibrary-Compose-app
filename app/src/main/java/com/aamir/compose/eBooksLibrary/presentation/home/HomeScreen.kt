@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HomeAppBar
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListing
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListingPreview
@@ -25,19 +26,22 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    onBookClick: (Book) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreen(
         uiState = uiState,
-        modifier = Modifier
+        modifier = Modifier,
+        onBookClick = onBookClick
     )
 }
 
 @Composable
 fun HomeScreen(
     uiState: HomeScreenState = HomeScreenState(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBookClick: (Book) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -63,22 +67,26 @@ fun HomeScreen(
                         )
                         is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titleRecommendedBooks,
-                            books = item.recommendedBooks
+                            books = item.recommendedBooks,
+                            onBookClick = onBookClick
                         )
 
                         is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titlePopularBooks,
-                            books = item.popularBooks
+                            books = item.popularBooks,
+                            onBookClick = onBookClick
                         )
 
                         is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titleTopSearchedBooks,
-                            books = item.topSearchedBooks
+                            books = item.topSearchedBooks,
+                            onBookClick = onBookClick
                         )
 
                         is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.tileNewReleasedBooks,
-                            books = item.newReleasedBooks
+                            books = item.newReleasedBooks,
+                            onBookClick = onBookClick
                         )
                     }
                 }
