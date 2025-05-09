@@ -6,13 +6,15 @@ import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppArgs.BOOK_ARG
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.BOOK_DETAILS_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.HOME_SCREEN
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.SEARCH_SCREEN
 
 /**
  * Screens used in [EBooksLibraryAppDestinations]
  */
 private object EBooksLibraryAppScreens {
-    const val HOME_SCREEN = "home"
-    const val BOOK_DETAILS_SCREEN = "bookDetails"
+    const val HOME_SCREEN = "HOME_SCREEN"
+    const val BOOK_DETAILS_SCREEN = "BOOK_DETAILS_SCREEN"
+    const val SEARCH_SCREEN = "SEARCH_SCREEN"
 }
 
 /**
@@ -29,15 +31,22 @@ object EBooksLibraryAppArgs {
 object EBooksLibraryAppDestinations {
     const val HOME_ROUTE = HOME_SCREEN
     const val BOOK_DETAILS_ROUTE =  BOOK_DETAILS_SCREEN
+    const val SEARCH_ROUTE =  SEARCH_SCREEN
 }
 
 /**
  * Models the navigation actions in the app.
  */
-class EBooksLibraryAppNavigation(private val navController: NavHostController) {
-    fun navigateToNoteDetails() {
+class EBooksLibraryNavigation(private val navController: NavHostController) {
+    fun navigateToNoteDetailsScreen() {
         navController.navigate(
             BOOK_DETAILS_ROUTE
+        )
+    }
+
+    fun navigateToNoteSearchScreen() {
+        navController.navigate(
+            SEARCH_SCREEN
         )
     }
 }

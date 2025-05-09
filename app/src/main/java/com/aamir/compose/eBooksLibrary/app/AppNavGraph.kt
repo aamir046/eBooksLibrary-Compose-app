@@ -14,19 +14,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppArgs.BOOK_ARG
 import com.aamir.compose.eBooksLibrary.core.presentation.SharedViewModel
-import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
+import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,8 +35,8 @@ fun AppNavGraph(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     startDestination: String = EBooksLibraryAppDestinations.HOME_ROUTE,
-    navActions: EBooksLibraryAppNavigation = remember(navController) {
-        EBooksLibraryAppNavigation(navController)
+    navActions: EBooksLibraryNavigation = remember(navController) {
+        EBooksLibraryNavigation(navController)
     }
 ) {
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
@@ -66,14 +64,22 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onBookClick = { book ->
                     selectedBookViewModel.onSelectBook(book)
-                    navActions.navigateToNoteDetails()
-                }
+                    navActions.navigateToNoteDetailsScreen()
+                },
+                onSearchClick = {isClicked->
+                    if(isClicked) {
+                        navActions.navigateToNoteSearchScreen()
+                    }
+                },
+                onNotificationsClick = {},
+
             )
         }
 
         composable(
             EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
         ) {backStackEntry ->
+
             val selectedBookViewModel =
                 backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
             val viewModel = koinViewModel<BookDetailsViewModel>()
@@ -86,6 +92,17 @@ fun AppNavGraph(
             }
 
             BookDetailsScreenRoot(
+                viewModel = viewModel,
+            )
+        }
+
+        composable(
+            EBooksLibraryAppDestinations.SEARCH_ROUTE
+        ) {backStackEntry ->
+
+            val viewModel = koinViewModel<SearchViewModel>()
+
+            SearchScreenRoot(
                 viewModel = viewModel,
             )
         }

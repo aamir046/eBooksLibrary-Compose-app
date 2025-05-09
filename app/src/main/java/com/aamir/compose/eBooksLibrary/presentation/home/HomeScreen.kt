@@ -27,13 +27,17 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel,
-    onBookClick: (Book) -> Unit
+    onBookClick: (Book) -> Unit,
+    onSearchClick: (Boolean) -> Unit = {},
+    onNotificationsClick: (Boolean) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreen(
         uiState = uiState,
         modifier = Modifier,
-        onBookClick = onBookClick
+        onBookClick = onBookClick,
+        onSearchClick = onSearchClick,
+        onNotificationsClick = onNotificationsClick
     )
 }
 
@@ -41,11 +45,16 @@ fun HomeScreenRoot(
 fun HomeScreen(
     uiState: HomeScreenState = HomeScreenState(),
     modifier: Modifier = Modifier,
-    onBookClick: (Book) -> Unit = {}
+    onBookClick: (Book) -> Unit = {},
+    onSearchClick: (Boolean) -> Unit = {},
+    onNotificationsClick: (Boolean) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
-            HomeAppBar()
+            HomeAppBar(
+                onSearchClick = onSearchClick,
+                onNotificationsClick = onNotificationsClick
+            )
         },
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
