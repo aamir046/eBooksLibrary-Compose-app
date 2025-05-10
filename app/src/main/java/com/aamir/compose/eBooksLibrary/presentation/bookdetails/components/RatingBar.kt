@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +32,7 @@ fun RatingBar(rating: Float, modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.Star,
                 contentDescription = null,
                 tint = Color(0xFFFFC107), // Amber
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -40,7 +41,7 @@ fun RatingBar(rating: Float, modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.StarHalf,
                 contentDescription = null,
                 tint = Color(0xFFFFC107),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -49,20 +50,22 @@ fun RatingBar(rating: Float, modifier: Modifier = Modifier) {
                 imageVector = Icons.Outlined.Star,
                 contentDescription = null,
                 tint = Color(0xFFFFC107),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
         Text(
             text = "(${rating})",
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.Gray,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(start = 4.dp)
         )
     }
 }
 
-@Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
+@Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable
-fun BookDetailsScreenPreview() {
+fun RatingBarPreview() {
     RatingBar(4.5f)
 }
 
