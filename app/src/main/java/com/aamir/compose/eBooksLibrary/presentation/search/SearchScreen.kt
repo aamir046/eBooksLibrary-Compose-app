@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.search.components.RecentSearches
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchAppBar
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchBar
@@ -30,14 +29,16 @@ fun SearchScreenRoot(
 
     SearchScreen(
         uiState = uiState,
-        modifier = Modifier
+        modifier = Modifier,
+        onSearchQuery = viewModel::onSearchQuery
     )
 }
 
 @Composable
 fun SearchScreen(
     uiState: SearchScreenState,
-    modifier: Modifier= Modifier
+    modifier: Modifier= Modifier,
+    onSearchQuery:(String)->Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -60,55 +61,31 @@ fun SearchScreen(
             ) {
                 SearchBar(
                     modifier = Modifier.padding(16.dp),
-                    onSearch = {}
+                    onSearchQuery = onSearchQuery
                 )
+
                 Spacer(modifier = Modifier.height(10.dp))
-                SearchResultList(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    searchResult = listOf(
-                        Book(
-                            author = "Harper Lee",
-                            title = "To Kill a Mockingbird",
-                            year = "1960",
-                            description = "A story of racial injustice and childhood innocence in the Deep South.",
-                            imageUrl = "https://images.gr-assets.com/books/1553383690l/2657.jpg"
-                        ),
-                        Book(
-                            author = "George Orwell",
-                            title = "1984",
-                            year = "1949",
-                            description = "A chilling vision of a dystopian world under total surveillance.",
-                            imageUrl = "https://images.penguinrandomhouse.com/cover/9780679417392"
-                        ),
-                        Book(
-                            author = "J.K. Rowling",
-                            title = "Harry Potter and the Sorcerer's Stone",
-                            year = "1997",
-                            description = "The beginning of Harry Potter’s magical journey at Hogwarts.",
-                            imageUrl = "https://images.gr-assets.com/books/1474154022l/3.jpg"
-                        ),
-                        Book(
-                            author = "J.R.R. Tolkien",
-                            title = "The Lord of the Rings",
-                            year = "1954",
-                            description = "An epic fantasy quest to destroy the One Ring and defeat evil.",
-                            imageUrl = "https://images.gr-assets.com/books/1566425108l/33.jpg"
-                        )
+
+                uiState.takeIf {
+                    it.searchQuery.isNotEmpty() && it.recentSearches.isNotEmpty()
+                }?.let {
+                    SearchResultList(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        searchResult = it.searchResult
                     )
-                )
-//                RecentSearches(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(horizontal = 16.dp),
-//                    recentSearches = listOf(
-//                        "The Good Sister",
-//                        "Kite Runner",
-//                        "History",
-//                        "Adventure",
-//                        "The hunger Games",
-//                    )
-//                )
+                }
+
+                uiState.takeIf {
+                    it.searchQuery.isEmpty() && it.recentSearches.isNotEmpty()
+                }?.let {
+                    RecentSearches(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp),
+                        recentSearches = it.recentSearches
+                    )
+                }
             }
         }
     }

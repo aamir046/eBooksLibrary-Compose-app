@@ -33,7 +33,7 @@ import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit = {}
+    onSearchQuery: (String) -> Unit = {}
 ){
     val searchQuery = remember { mutableStateOf("") }
 
@@ -50,7 +50,7 @@ fun SearchBar(
             value = searchQuery.value,
             onValueChange = {
                 searchQuery.value = it
-                onSearch.invoke(it)
+                onSearchQuery.invoke(it)
             },
             placeholder = {
                 Text(

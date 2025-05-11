@@ -32,13 +32,13 @@ fun SearchResultList(
     searchResult: List<Book> = emptyList()
 ){
     Column(
-        modifier = modifier.padding(8.dp)
+        modifier = modifier.padding(horizontal =  8.dp)
     ) {
         Text(
             text = "Search Result",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(horizontal =  8.dp)
         )
 
         LazyVerticalGrid(

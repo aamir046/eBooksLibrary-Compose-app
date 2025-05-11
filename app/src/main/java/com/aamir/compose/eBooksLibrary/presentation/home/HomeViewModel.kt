@@ -2,7 +2,7 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aamir.compose.eBooksLibrary.data.repository.BookRepository
+import com.aamir.compose.eBooksLibrary.data.repository.HomeRepository
 import com.aamir.compose.eBooksLibrary.domain.Book
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class HomeViewModel(private val bookRepository: BookRepository) : ViewModel() {
+class HomeViewModel(private val bookRepository: HomeRepository) : ViewModel() {
 
     private var bookFetchJob: Job? = null
 

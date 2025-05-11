@@ -4,10 +4,9 @@ import com.aamir.compose.eBooksLibrary.domain.Book
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class BookRepository {
-    fun fetchBooks(): Flow<List<Book>> =
-        flowOf(
-            listOf(
+class SearchRepository {
+    fun searchBooks(searchQuery:String): Flow<List<Book>> {
+        val dummyBooksList = listOf(
                 Book(
                     author = "Harper Lee",
                     title = "To Kill a Mockingbird",
@@ -169,6 +168,12 @@ class BookRepository {
                     type = "NEW_RELEASED"
                 )
             )
+        return flowOf(
+            dummyBooksList.filter {
+                it.title.lowercase().contains(searchQuery.lowercase())
+            }
         )
+    }
+
 
 }
