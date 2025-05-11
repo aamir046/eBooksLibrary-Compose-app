@@ -25,7 +25,8 @@ import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResu
 @Composable
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
-    onSearchResultSelected: (book:Book)-> Unit = {}
+    onSearchResultSelected: (book:Book)-> Unit = {},
+    onBackClick: (Boolean) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -34,7 +35,8 @@ fun SearchScreenRoot(
         modifier = Modifier,
         onSearchQuery = viewModel::onSearchQuery,
         onRecentSearchSelected = viewModel::onRecentSearchSelected,
-        onSearchResultSelected = onSearchResultSelected
+        onSearchResultSelected = onSearchResultSelected,
+        onBackClick = onBackClick
     )
 }
 
@@ -44,12 +46,13 @@ fun SearchScreen(
     modifier: Modifier= Modifier,
     onSearchQuery:(String)->Unit = {},
     onRecentSearchSelected:(String)-> Unit = {},
-    onSearchResultSelected: (book:Book)-> Unit = {}
+    onSearchResultSelected: (book:Book)-> Unit = {},
+    onBackClick: (Boolean) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
             SearchAppBar(
-                onBackClick = { }
+                onBackClick = onBackClick
             )
         },
         modifier = modifier.fillMaxSize()
@@ -100,7 +103,7 @@ fun SearchScreen(
     }
 }
 
-@Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
+@Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable
 fun SearchScreenPreview() {
     SearchScreen(

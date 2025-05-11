@@ -40,25 +40,28 @@ import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCove
 
 @Composable
 fun BookDetailsScreenRoot(
-    viewModel: BookDetailsViewModel
+    viewModel: BookDetailsViewModel,
+    onBackClick: (Boolean) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     BookDetailsScreen(
         uiState = uiState,
-        modifier = Modifier
+        modifier = Modifier,
+        onBackClick = onBackClick
     )
 }
 
 @Composable
 fun BookDetailsScreen(
     uiState: BookDetailsScreenState = BookDetailsScreenState(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackClick: (Boolean) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
             BookDetailsAppBar(
-                onBackClick = {  }
+                onBackClick = onBackClick
             )
         },
         modifier = modifier.fillMaxSize()

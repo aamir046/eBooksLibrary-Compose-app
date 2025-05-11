@@ -4,8 +4,12 @@ package com.aamir.compose.eBooksLibrary.app
 import androidx.navigation.NavHostController
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppArgs.BOOK_ARG
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HOME_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.SEARCH_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.BOOK_DETAILS_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.HOME_SCREEN
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.NOTIFICATIONS_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.SEARCH_SCREEN
 
 /**
@@ -15,6 +19,7 @@ private object EBooksLibraryAppScreens {
     const val HOME_SCREEN = "HOME_SCREEN"
     const val BOOK_DETAILS_SCREEN = "BOOK_DETAILS_SCREEN"
     const val SEARCH_SCREEN = "SEARCH_SCREEN"
+    const val NOTIFICATIONS_SCREEN = "NOTIFICATIONS_SCREEN"
 }
 
 /**
@@ -32,6 +37,7 @@ object EBooksLibraryAppDestinations {
     const val HOME_ROUTE = HOME_SCREEN
     const val BOOK_DETAILS_ROUTE =  BOOK_DETAILS_SCREEN
     const val SEARCH_ROUTE =  SEARCH_SCREEN
+    const val NOTIFICATIONS_ROUTE =  NOTIFICATIONS_SCREEN
 }
 
 /**
@@ -46,7 +52,13 @@ class EBooksLibraryNavigation(private val navController: NavHostController) {
 
     fun navigateToNoteSearchScreen() {
         navController.navigate(
-            SEARCH_SCREEN
+            SEARCH_ROUTE
         )
     }
+    fun navigateToNoteNotificationsScreen() {
+        navController.navigate(
+            NOTIFICATIONS_ROUTE
+        )
+    }
+
 }

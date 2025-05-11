@@ -23,6 +23,8 @@ import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsScree
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
+import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -71,7 +73,11 @@ fun AppNavGraph(
                         navActions.navigateToNoteSearchScreen()
                     }
                 },
-                onNotificationsClick = {},
+                onNotificationsClick = {isClicked->
+                    if(isClicked) {
+                        navActions.navigateToNoteNotificationsScreen()
+                    }
+                },
 
             )
         }
@@ -93,6 +99,9 @@ fun AppNavGraph(
 
             BookDetailsScreenRoot(
                 viewModel = viewModel,
+                onBackClick = {
+                    navController.navigateUp()
+                }
             )
         }
 
@@ -113,6 +122,22 @@ fun AppNavGraph(
                 onSearchResultSelected = {book->
                     selectedBookViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
+                },
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        composable(
+            EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
+        ) {
+            val viewModel = koinViewModel<NotificationsViewModel>()
+
+            NotificationsScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.navigateUp()
                 }
             )
         }
