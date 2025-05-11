@@ -1,25 +1,15 @@
 package com.aamir.compose.eBooksLibrary.presentation.search.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +19,8 @@ import com.aamir.compose.eBooksLibrary.domain.Book
 @Composable
 fun SearchResultList(
     modifier: Modifier = Modifier,
-    searchResult: List<Book> = emptyList()
+    searchResult: List<Book> = emptyList(),
+    onSearchResultSelected: (book: Book) -> Unit = {}
 ){
     Column(
         modifier = modifier.padding(horizontal =  8.dp)
@@ -48,7 +39,7 @@ fun SearchResultList(
             items(searchResult){book->
                 ItemSearchResultList(
                     book = book,
-                    onBookClick = {}
+                    onSearchResultSelected = onSearchResultSelected
                 )
             }
         }
@@ -90,6 +81,7 @@ fun SearchResultListPreview() {
                 description = "An epic fantasy quest to destroy the One Ring and defeat evil.",
                 imageUrl = "https://images.gr-assets.com/books/1566425108l/33.jpg"
             )
-        )
+        ),
+        onSearchResultSelected = {}
     )
 }

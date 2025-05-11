@@ -90,4 +90,8 @@ class SearchViewModel(
             }
         }.stateIn(viewModelScope)
     }
+
+    fun onRecentSearchSelected(searchText: String) {
+        onSearchQuery(searchText)
+    }
 }

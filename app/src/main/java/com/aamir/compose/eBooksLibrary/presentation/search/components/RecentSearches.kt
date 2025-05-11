@@ -1,6 +1,7 @@
 package com.aamir.compose.eBooksLibrary.presentation.search.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +24,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RecentSearches(
     modifier: Modifier = Modifier,
-    recentSearches: List<String> = emptyList()
+    recentSearches: List<String> = emptyList(),
+    onRecentSearchSelected:(String)-> Unit = {}
 ){
     Column(
         modifier = modifier
@@ -36,7 +38,10 @@ fun RecentSearches(
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(recentSearches){ recentSearch: String ->
-                ItemRecentSearches(search = recentSearch)
+                ItemRecentSearches(
+                    searchText = recentSearch,
+                    onRecentSearchSelected = onRecentSearchSelected
+                )
             }
         }
     }
@@ -45,11 +50,19 @@ fun RecentSearches(
 @Composable
 fun ItemRecentSearches(
     modifier: Modifier = Modifier,
-    search:String
+    searchText: String,
+    onRecentSearchSelected: (String) -> Unit = {}
 ){
-    Column(modifier = modifier.fillMaxWidth().wrapContentHeight()) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clickable {
+                onRecentSearchSelected.invoke(searchText)
+            }
+    ) {
         Text(
-            text = search,
+            text = searchText,
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,

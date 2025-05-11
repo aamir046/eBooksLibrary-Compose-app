@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.search.components.RecentSearches
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchAppBar
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchBar
@@ -23,14 +24,17 @@ import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResu
 
 @Composable
 fun SearchScreenRoot(
-    viewModel: SearchViewModel
+    viewModel: SearchViewModel,
+    onSearchResultSelected: (book:Book)-> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SearchScreen(
         uiState = uiState,
         modifier = Modifier,
-        onSearchQuery = viewModel::onSearchQuery
+        onSearchQuery = viewModel::onSearchQuery,
+        onRecentSearchSelected = viewModel::onRecentSearchSelected,
+        onSearchResultSelected = onSearchResultSelected
     )
 }
 
@@ -38,7 +42,9 @@ fun SearchScreenRoot(
 fun SearchScreen(
     uiState: SearchScreenState,
     modifier: Modifier= Modifier,
-    onSearchQuery:(String)->Unit = {}
+    onSearchQuery:(String)->Unit = {},
+    onRecentSearchSelected:(String)-> Unit = {},
+    onSearchResultSelected: (book:Book)-> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -61,7 +67,8 @@ fun SearchScreen(
             ) {
                 SearchBar(
                     modifier = Modifier.padding(16.dp),
-                    onSearchQuery = onSearchQuery
+                    onSearchQuery = onSearchQuery,
+                    searchQuery = uiState.searchQuery
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -72,7 +79,8 @@ fun SearchScreen(
                     SearchResultList(
                         modifier = Modifier
                             .fillMaxSize(),
-                        searchResult = it.searchResult
+                        searchResult = it.searchResult,
+                        onSearchResultSelected = onSearchResultSelected
                     )
                 }
 
@@ -83,7 +91,8 @@ fun SearchScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 16.dp),
-                        recentSearches = it.recentSearches
+                        recentSearches = it.recentSearches,
+                        onRecentSearchSelected = onRecentSearchSelected
                     )
                 }
             }

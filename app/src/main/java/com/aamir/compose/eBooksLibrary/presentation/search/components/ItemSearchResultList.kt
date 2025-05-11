@@ -26,14 +26,14 @@ import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCove
 @Composable
 fun ItemSearchResultList(
     book: Book,
-    onBookClick: (Book) -> Unit
+    onSearchResultSelected: (Book) -> Unit
 ){
     Column(
         modifier= Modifier
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(all = 8.dp)
-            .clickable(enabled = true) { onBookClick(book) }
+            .clickable(enabled = true) { onSearchResultSelected.invoke(book) }
     ) {
         LoadBookCoverImage(
             url = book.imageUrl,

@@ -101,9 +101,19 @@ fun AppNavGraph(
         ) {backStackEntry ->
 
             val viewModel = koinViewModel<SearchViewModel>()
+            val selectedBookViewModel =
+                backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
+
+            LaunchedEffect(true) {
+                selectedBookViewModel.onSelectBook(null)
+            }
 
             SearchScreenRoot(
                 viewModel = viewModel,
+                onSearchResultSelected = {book->
+                    selectedBookViewModel.onSelectBook(book)
+                    navActions.navigateToNoteDetailsScreen()
+                }
             )
         }
     }

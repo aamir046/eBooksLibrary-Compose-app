@@ -1,5 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.search.components
 
+import android.app.DownloadManager.Query
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
@@ -33,10 +34,9 @@ import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    onSearchQuery: (String) -> Unit = {}
+    onSearchQuery: (String) -> Unit = {},
+    searchQuery: String = ""
 ){
-    val searchQuery = remember { mutableStateOf("") }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -47,9 +47,8 @@ fun SearchBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
-            value = searchQuery.value,
+            value = searchQuery,
             onValueChange = {
-                searchQuery.value = it
                 onSearchQuery.invoke(it)
             },
             placeholder = {
