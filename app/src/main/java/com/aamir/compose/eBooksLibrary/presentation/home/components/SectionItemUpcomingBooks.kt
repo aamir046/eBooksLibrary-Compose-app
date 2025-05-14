@@ -52,8 +52,8 @@ fun UpComingBooksLaunchPager(books:List<Book>,autoScroll:Boolean = true){
 
     val pagerState = rememberPagerState(pageCount = { books.size })
 
-    // 🔁 Auto-scroll every 3 seconds
-    LaunchedEffect(autoScroll, books.size) {
+    //Auto-scroll every 3 seconds
+    LaunchedEffect(autoScroll, books.size){
         if (!autoScroll || books.size <= 1) return@LaunchedEffect
         while (true) {
             delay(3000L)
