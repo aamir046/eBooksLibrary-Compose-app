@@ -7,11 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,6 +53,9 @@ fun HomeScreen(
     onSearchClick: (Boolean) -> Unit = {},
     onNotificationsClick: (Boolean) -> Unit = {},
 ) {
+
+    val scrollState = rememberLazyListState()
+
     Scaffold(
         topBar = {
             HomeAppBar(
@@ -67,7 +74,10 @@ fun HomeScreen(
         ) {
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .nestedScroll(rememberNestedScrollInteropConnection()),
+                state = scrollState,
             ) {
                 items(uiState.screenSectionItems) { item ->
                     when (item) {

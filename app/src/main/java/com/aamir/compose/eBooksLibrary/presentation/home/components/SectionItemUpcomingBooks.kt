@@ -41,21 +41,25 @@ import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
 @Composable
-fun SectionItemUpcomingBooks(books:List<Book>){
-    UpComingBooksLaunchPager(books)
+fun SectionItemUpcomingBooks(books:List<Book>,autoScroll:Boolean = true){
+    UpComingBooksLaunchPager(books = books,autoScroll = autoScroll )
 }
 
 @Composable
-fun UpComingBooksLaunchPager(books:List<Book>){
+fun UpComingBooksLaunchPager(books:List<Book>,autoScroll:Boolean = true){
+
+    if (books.isEmpty()) return
+
     val pagerState = rememberPagerState(pageCount = { books.size })
 
-    LaunchedEffect(Unit) {
+    // 🔁 Auto-scroll every 3 seconds
+    LaunchedEffect(autoScroll, books.size) {
+        if (!autoScroll || books.size <= 1) return@LaunchedEffect
         while (true) {
             delay(3000L)
             val nextPage = (pagerState.currentPage + 1) % books.size
             pagerState.animateScrollToPage(nextPage)
         }
-
     }
 
     Column(modifier = Modifier
@@ -122,7 +126,9 @@ fun UpComingBooksLaunchPager(books:List<Book>){
 @Composable
 fun UpComingBooksLaunchCard(book: Book){
     Card(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(170.dp),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(modifier = Modifier.fillMaxSize().background(Color.LightGray)) {

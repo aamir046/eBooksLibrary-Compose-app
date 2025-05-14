@@ -38,7 +38,7 @@ fun HorizontalBooksListing(
         )
 
        LazyRow(modifier = modifier.fillMaxSize()) {
-           items(books){book->
+           items(books, key = { it.title} ){book->
                ItemBooksListingHorizontal(book, onBookClick)
            }
        }

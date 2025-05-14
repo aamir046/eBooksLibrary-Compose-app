@@ -26,15 +26,15 @@ class NotificationsViewModel:ViewModel() {
         val currentNotifications = listOf(
             Notifications.General(
                 generalNotification = GeneralNotification(
-                    title = "General",
-                    description = "this is more than the description i have written for all",
+                    title = "Welcome",
+                    description = "Dive into your next chapter or explore new titles today",
                     dateTime = "05/14/2025: 05:10 PM"
                 )
             ),
             Notifications.General(
                 generalNotification = GeneralNotification(
-                    title = "Promotional",
-                    description = "this is more than the description i have written for all",
+                    title = "New Arrivals Just In",
+                    description = "Check out the latest eBooks added to your library—don’t miss out!",
                     dateTime = "05/14/2025: 10:10 AM"
                 )
             ),
