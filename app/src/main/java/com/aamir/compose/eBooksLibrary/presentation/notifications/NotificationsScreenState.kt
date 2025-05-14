@@ -1,4 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.notifications
 
-class NotificationsScreenState {
-}
+data class NotificationsScreenState (
+    val notificationItems: List<NotificationsItem> = emptyList()
+)
+
