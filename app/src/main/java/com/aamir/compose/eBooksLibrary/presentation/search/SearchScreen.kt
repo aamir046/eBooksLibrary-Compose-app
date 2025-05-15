@@ -26,17 +26,25 @@ import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResu
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
     onSearchResultSelected: (book:Book)-> Unit = {},
-    onBackClick: (Boolean) -> Unit = {}
+    onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val onActions: (SearchScreenActions) -> Unit = { action ->
+        when (action) {
+            is SearchScreenActions.OnBackClick -> onBackClick()
+            is SearchScreenActions.OnSearchResultSelected -> onSearchResultSelected(action.book)
+            else -> {
+                viewModel.onActions(action)
+            }
+        }
+
+    }
 
     SearchScreen(
         uiState = uiState,
         modifier = Modifier,
-        onSearchQuery = viewModel::onSearchQuery,
-        onRecentSearchSelected = viewModel::onRecentSearchSelected,
-        onSearchResultSelected = onSearchResultSelected,
-        onBackClick = onBackClick
+        onActions = onActions
     )
 }
 
@@ -44,15 +52,12 @@ fun SearchScreenRoot(
 fun SearchScreen(
     uiState: SearchScreenState,
     modifier: Modifier= Modifier,
-    onSearchQuery:(String)->Unit = {},
-    onRecentSearchSelected:(String)-> Unit = {},
-    onSearchResultSelected: (book:Book)-> Unit = {},
-    onBackClick: (Boolean) -> Unit = {}
+    onActions: (SearchScreenActions) -> Unit
 ) {
     Scaffold(
         topBar = {
             SearchAppBar(
-                onBackClick = onBackClick
+                onBackClick = { onActions(SearchScreenActions.OnBackClick) }
             )
         },
         modifier = modifier.fillMaxSize()
@@ -70,8 +75,10 @@ fun SearchScreen(
             ) {
                 SearchBar(
                     modifier = Modifier.padding(16.dp),
-                    onSearchQuery = onSearchQuery,
-                    searchQuery = uiState.searchQuery
+                    searchQuery = uiState.searchQuery,
+                    onSearchQuery = { searchQuery ->
+                        onActions(SearchScreenActions.OnSearchQuery(searchQuery))
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -83,7 +90,9 @@ fun SearchScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         searchResult = it.searchResult,
-                        onSearchResultSelected = onSearchResultSelected
+                        onSearchResultSelected = { book ->
+                            onActions(SearchScreenActions.OnSearchResultSelected(book))
+                        }
                     )
                 }
 
@@ -95,7 +104,9 @@ fun SearchScreen(
                             .fillMaxSize()
                             .padding(horizontal = 16.dp),
                         recentSearches = it.recentSearches,
-                        onRecentSearchSelected = onRecentSearchSelected
+                        onRecentSearchSelected = { searchText ->
+                            onActions(SearchScreenActions.OnRecentSearchSelected(searchText))
+                        }
                     )
                 }
             }
@@ -108,6 +119,7 @@ fun SearchScreen(
 fun SearchScreenPreview() {
     SearchScreen(
         uiState = SearchScreenState(),
-        modifier = Modifier
+        modifier = Modifier,
+        onActions = {}
     )
 }

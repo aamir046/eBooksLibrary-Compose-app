@@ -41,8 +41,8 @@ import com.aamir.compose.eBooksLibrary.presentation.theme.Purple80
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAppBar(
-    onNotificationsClick: (Boolean) -> Unit = {},
-    onSearchClick: (Boolean) -> Unit = {}
+    onNotificationsClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {}
 ){
     TopAppBar(
         title = {
@@ -63,7 +63,7 @@ fun HomeAppBar(
                         .padding(horizontal = 8.dp)
                         .height(40.dp)
                         .width(40.dp),
-                    onClick = { onSearchClick.invoke(true) }
+                    onClick = { onSearchClick.invoke() }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
@@ -76,7 +76,7 @@ fun HomeAppBar(
                         .padding(horizontal = 8.dp)
                         .height(40.dp)
                         .width(40.dp),
-                    onClick = { onNotificationsClick.invoke(true) }
+                    onClick = { onNotificationsClick.invoke() }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_notifications),

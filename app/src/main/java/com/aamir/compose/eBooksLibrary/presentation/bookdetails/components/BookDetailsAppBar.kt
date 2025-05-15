@@ -26,7 +26,7 @@ import com.aamir.compose.eBooksLibrary.R
 @Composable
 fun BookDetailsAppBar(
     modifier: Modifier = Modifier,
-    onBackClick: (Boolean) -> Unit = {}
+    onBackClick: () -> Unit = {}
 ){
     CenterAlignedTopAppBar(
         title = {
@@ -43,7 +43,7 @@ fun BookDetailsAppBar(
                     .padding(horizontal = 8.dp)
                     .height(40.dp)
                     .width(40.dp),
-                onClick = { onBackClick.invoke(true) }
+                onClick = { onBackClick.invoke() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),

@@ -68,17 +68,12 @@ fun AppNavGraph(
                     selectedBookViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
                 },
-                onSearchClick = {isClicked->
-                    if(isClicked) {
+                onSearchClick = {
                         navActions.navigateToNoteSearchScreen()
-                    }
                 },
-                onNotificationsClick = {isClicked->
-                    if(isClicked) {
+                onNotificationsClick = {
                         navActions.navigateToNoteNotificationsScreen()
-                    }
-                },
-
+                }
             )
         }
 

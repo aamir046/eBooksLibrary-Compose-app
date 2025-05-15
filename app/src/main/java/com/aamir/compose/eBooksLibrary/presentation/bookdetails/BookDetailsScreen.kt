@@ -41,14 +41,20 @@ import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCove
 @Composable
 fun BookDetailsScreenRoot(
     viewModel: BookDetailsViewModel,
-    onBackClick: (Boolean) -> Unit = {}
+    onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val actions: (BookDetailsScreenActions) -> Unit = { action ->
+        when (action) {
+            is BookDetailsScreenActions.OnBackClick -> onBackClick()
+        }
+    }
 
     BookDetailsScreen(
         uiState = uiState,
         modifier = Modifier,
-        onBackClick = onBackClick
+        actions = actions
     )
 }
 
@@ -56,12 +62,12 @@ fun BookDetailsScreenRoot(
 fun BookDetailsScreen(
     uiState: BookDetailsScreenState = BookDetailsScreenState(),
     modifier: Modifier = Modifier,
-    onBackClick: (Boolean) -> Unit = {}
+    actions: (BookDetailsScreenActions) -> Unit
 ) {
     Scaffold(
         topBar = {
             BookDetailsAppBar(
-                onBackClick = onBackClick
+                onBackClick = { actions(BookDetailsScreenActions.OnBackClick) }
             )
         },
         modifier = modifier.fillMaxSize()
@@ -176,5 +182,7 @@ fun BookDetailsScreenPreview() {
                 imageUrl = "https://images.gr-assets.com/books/1566425108l/33.jpg"
             )
         ),
+        modifier = Modifier,
+        actions = {}
     )
 }

@@ -47,6 +47,14 @@ class SearchViewModel(
         }
     }
 
+    fun onActions(actions: SearchScreenActions){
+        when(actions){
+            is SearchScreenActions.OnSearchQuery -> onSearchQuery(actions.searchQuery)
+            is SearchScreenActions.OnRecentSearchSelected -> onSearchQuery(actions.searchText)
+            else -> {}
+        }
+    }
+
     fun onSearchQuery(searchQuery:String){
         _uiState.update {
             it.copy(
@@ -91,7 +99,4 @@ class SearchViewModel(
         }.stateIn(viewModelScope)
     }
 
-    fun onRecentSearchSelected(searchText: String) {
-        onSearchQuery(searchText)
-    }
 }

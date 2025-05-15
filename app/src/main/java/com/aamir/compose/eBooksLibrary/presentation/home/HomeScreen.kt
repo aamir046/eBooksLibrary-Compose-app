@@ -32,16 +32,23 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreenRoot(
     viewModel: HomeViewModel,
     onBookClick: (Book) -> Unit,
-    onSearchClick: (Boolean) -> Unit = {},
-    onNotificationsClick: (Boolean) -> Unit = {},
+    onSearchClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val onActions: (HomeScreenActions) -> Unit = {action->
+        when(action){
+            is HomeScreenActions.OnBookClick -> onBookClick(action.book)
+            is HomeScreenActions.OnSearchClick -> onSearchClick()
+            is HomeScreenActions.OnNotificationsClick -> onNotificationsClick()
+        }
+    }
+
     HomeScreen(
         uiState = uiState,
         modifier = Modifier,
-        onBookClick = onBookClick,
-        onSearchClick = onSearchClick,
-        onNotificationsClick = onNotificationsClick
+        onActions = onActions
     )
 }
 
@@ -49,9 +56,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     uiState: HomeScreenState = HomeScreenState(),
     modifier: Modifier = Modifier,
-    onBookClick: (Book) -> Unit = {},
-    onSearchClick: (Boolean) -> Unit = {},
-    onNotificationsClick: (Boolean) -> Unit = {},
+    onActions: (HomeScreenActions) -> Unit,
 ) {
 
     val scrollState = rememberLazyListState()
@@ -59,8 +64,8 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             HomeAppBar(
-                onSearchClick = onSearchClick,
-                onNotificationsClick = onNotificationsClick
+                onSearchClick = { onActions(HomeScreenActions.OnSearchClick) },
+                onNotificationsClick = { onActions(HomeScreenActions.OnNotificationsClick) }
             )
         },
         modifier = modifier.fillMaxSize()
@@ -87,25 +92,25 @@ fun HomeScreen(
                         is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titleRecommendedBooks,
                             books = item.recommendedBooks,
-                            onBookClick = onBookClick
+                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
                         )
 
                         is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titlePopularBooks,
                             books = item.popularBooks,
-                            onBookClick = onBookClick
+                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
                         )
 
                         is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.titleTopSearchedBooks,
                             books = item.topSearchedBooks,
-                            onBookClick = onBookClick
+                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
                         )
 
                         is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(
                             rowTitle = uiState.tileNewReleasedBooks,
                             books = item.newReleasedBooks,
-                            onBookClick = onBookClick
+                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
                         )
                     }
                 }
@@ -117,5 +122,9 @@ fun HomeScreen(
 @Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(
+        uiState = HomeScreenState(),
+        modifier = Modifier,
+        onActions = {}
+    )
 }

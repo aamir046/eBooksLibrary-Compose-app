@@ -2,7 +2,6 @@ package com.aamir.compose.eBooksLibrary.presentation.notifications
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,14 +21,20 @@ import com.aamir.compose.eBooksLibrary.presentation.notifications.components.Not
 @Composable
 fun NotificationsScreenRoot(
     viewModel: NotificationsViewModel,
-    onBackClick: (Boolean) -> Unit = {}
+    onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val onActions: (NotificationsScreenActions) -> Unit = { action ->
+        when (action) {
+            is NotificationsScreenActions.OnBackClick -> onBackClick()
+        }
+    }
 
     NotificationsScreen(
         uiState = uiState,
         modifier = Modifier,
-        onBackClick = onBackClick
+        onActions = onActions
     )
 }
 
@@ -37,12 +42,12 @@ fun NotificationsScreenRoot(
 fun NotificationsScreen(
     uiState: NotificationsScreenState,
     modifier: Modifier = Modifier,
-    onBackClick: (Boolean) -> Unit = {}
+    onActions: (NotificationsScreenActions) -> Unit
 ) {
     Scaffold(
         topBar = {
             NotificationsAppBar(
-                onBackClick = onBackClick
+                onBackClick = { onActions(NotificationsScreenActions.OnBackClick) }
             )
         },
         modifier = modifier.fillMaxSize()
@@ -81,6 +86,7 @@ fun NotificationsScreen(
 fun NotificationsScreenPreview() {
     NotificationsScreen(
         uiState = NotificationsScreenState(),
-        modifier = Modifier
+        modifier = Modifier,
+        onActions = {}
     )
 }
