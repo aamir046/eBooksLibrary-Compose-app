@@ -1,13 +1,13 @@
 package com.aamir.compose.eBooksLibrary.app
 
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,19 +27,17 @@ import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsS
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
-import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     startDestination: String = EBooksLibraryAppDestinations.HOME_ROUTE,
     navActions: EBooksLibraryNavigation = remember(navController) {
         EBooksLibraryNavigation(navController)
-    }
+    },
+    showBottomBar:(Boolean)->Unit={}
 ) {
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentNavBackStackEntry?.destination?.route ?: startDestination
@@ -48,8 +46,19 @@ fun AppNavGraph(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
-        route = "eBookLibraryGraph"
+        route = "eBookLibraryGraph",
+        enterTransition = { slideInHorizontally(
+            initialOffsetX = { fullWidth -> fullWidth }, // Slide from right
+            animationSpec = tween(
+                durationMillis = 200,
+                easing = FastOutSlowInEasing
+            )
+        ) },
+        exitTransition = { slideOutHorizontally() },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
+
         composable(
             EBooksLibraryAppDestinations.HOME_ROUTE
         ) { backStackEntry ->
@@ -60,6 +69,7 @@ fun AppNavGraph(
 
             LaunchedEffect(true) {
                 selectedBookViewModel.onSelectBook(null)
+                showBottomBar.invoke(true)
             }
 
             HomeScreenRoot(
@@ -90,6 +100,7 @@ fun AppNavGraph(
                 selectedBook?.let {
                     viewModel.onSelectBook(selectedBook)
                 }
+                showBottomBar.invoke(false)
             }
 
             BookDetailsScreenRoot(
@@ -110,6 +121,7 @@ fun AppNavGraph(
 
             LaunchedEffect(true) {
                 selectedBookViewModel.onSelectBook(null)
+                showBottomBar.invoke(false)
             }
 
             SearchScreenRoot(
@@ -128,13 +140,25 @@ fun AppNavGraph(
             EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
         ) {
             val viewModel = koinViewModel<NotificationsViewModel>()
-
+            LaunchedEffect(true) {
+                showBottomBar.invoke(false)
+            }
             NotificationsScreenRoot(
                 viewModel = viewModel,
                 onBackClick = {
                     navController.navigateUp()
                 }
             )
+        }
+
+        composable(EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
+
+        }
+        composable(EBooksLibraryAppDestinations.AUTHORS_ROUTE) {
+
+        }
+        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE) {
+
         }
     }
 }
