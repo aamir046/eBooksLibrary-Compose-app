@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.domain.GeneralNotification
-import com.aamir.compose.eBooksLibrary.presentation.theme.Blue
+import com.aamir.compose.eBooksLibrary.presentation.theme.Purple
 
 @Composable
 fun ItemGeneralNotifications(
@@ -59,9 +59,9 @@ fun ItemGeneralNotifications(
             Text(
                 text = notification?.title ?: "Promotional",
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier,
-                color = Blue
+                color = Purple
             )
             Spacer(modifier = Modifier.padding(4.dp))
             Text(

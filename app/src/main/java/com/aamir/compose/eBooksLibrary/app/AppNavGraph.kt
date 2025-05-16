@@ -1,7 +1,13 @@
 package com.aamir.compose.eBooksLibrary.app
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.SnapSpec
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
@@ -49,19 +55,14 @@ fun AppNavGraph(
         route = "eBookLibraryGraph",
         enterTransition = { slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth }, // Slide from right
-            animationSpec = tween(
-                durationMillis = 200,
-                easing = FastOutSlowInEasing
+            animationSpec = SnapSpec(
+               100
             )
         ) },
-        exitTransition = { slideOutHorizontally() },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
-        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
 
         composable(
-            EBooksLibraryAppDestinations.HOME_ROUTE
-        ) { backStackEntry ->
+            EBooksLibraryAppDestinations.HOME_ROUTE) { backStackEntry ->
 
             val viewModel = koinViewModel<HomeViewModel>()
             val selectedBookViewModel =
@@ -88,8 +89,7 @@ fun AppNavGraph(
         }
 
         composable(
-            EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
-        ) {backStackEntry ->
+            EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE) {backStackEntry ->
 
             val selectedBookViewModel =
                 backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
@@ -112,8 +112,7 @@ fun AppNavGraph(
         }
 
         composable(
-            EBooksLibraryAppDestinations.SEARCH_ROUTE
-        ) {backStackEntry ->
+            EBooksLibraryAppDestinations.SEARCH_ROUTE) {backStackEntry ->
 
             val viewModel = koinViewModel<SearchViewModel>()
             val selectedBookViewModel =
@@ -137,8 +136,7 @@ fun AppNavGraph(
         }
 
         composable(
-            EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
-        ) {
+            EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE) {
             val viewModel = koinViewModel<NotificationsViewModel>()
             LaunchedEffect(true) {
                 showBottomBar.invoke(false)
@@ -151,13 +149,16 @@ fun AppNavGraph(
             )
         }
 
-        composable(EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
+        composable(route = EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
 
         }
         composable(EBooksLibraryAppDestinations.AUTHORS_ROUTE) {
 
         }
-        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE) {
+        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE,
+//            enterTransition ={ fadeIn()},
+//            exitTransition ={ fadeOut()}
+        ) {
 
         }
     }

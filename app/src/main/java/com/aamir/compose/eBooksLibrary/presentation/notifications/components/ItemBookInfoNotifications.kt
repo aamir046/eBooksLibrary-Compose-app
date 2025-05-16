@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.domain.BookInfoNotification
 import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
-import com.aamir.compose.eBooksLibrary.presentation.theme.Blue
+import com.aamir.compose.eBooksLibrary.presentation.theme.PurpleMedium
 
 @Composable
 fun ItemBookInfoNotifications(
@@ -72,7 +72,7 @@ fun ItemBookInfoNotifications(
                     Text(
                         text = notification?.status?:"New Published",
                         style = MaterialTheme.typography.labelMedium,
-                        color = Blue,
+                        color = PurpleMedium,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
