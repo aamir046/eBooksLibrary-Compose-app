@@ -16,9 +16,9 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.core.presentation.SecondaryAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.search.components.RecentSearches
-import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchAppBar
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchBar
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResultList
 
@@ -56,7 +56,8 @@ fun SearchScreen(
 ) {
     Scaffold(
         topBar = {
-            SearchAppBar(
+            SecondaryAppBar(
+                title = "Search",
                 onBackClick = { onActions(SearchScreenActions.OnBackClick) }
             )
         },

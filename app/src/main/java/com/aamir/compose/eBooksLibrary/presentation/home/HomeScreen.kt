@@ -2,7 +2,6 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,15 +16,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.core.presentation.MainAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
-import com.aamir.compose.eBooksLibrary.presentation.home.components.HomeAppBar
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListing
-import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListingPreview
 import com.aamir.compose.eBooksLibrary.presentation.home.components.SectionItemUpcomingBooks
-import com.aamir.compose.eBooksLibrary.presentation.home.components.UpComingBooksLaunchCard
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
@@ -63,7 +57,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeAppBar(
+            MainAppBar(
                 onSearchClick = { onActions(HomeScreenActions.OnSearchClick) },
                 onNotificationsClick = { onActions(HomeScreenActions.OnNotificationsClick) }
             )

@@ -1,15 +1,7 @@
 package com.aamir.compose.eBooksLibrary.app
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.SnapSpec
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,12 +17,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.aamir.compose.eBooksLibrary.core.presentation.SharedViewModel
+import com.aamir.compose.eBooksLibrary.presentation.authors.AuthorsScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.authors.AuthorsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsViewModel
+import com.aamir.compose.eBooksLibrary.presentation.categories.CategoriesScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.categories.CategoriesViewModel
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
+import com.aamir.compose.eBooksLibrary.presentation.profiile.ProfileScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.profiile.ProfileViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -135,8 +133,7 @@ fun AppNavGraph(
             )
         }
 
-        composable(
-            EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE) {
+        composable(EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE) {
             val viewModel = koinViewModel<NotificationsViewModel>()
             LaunchedEffect(true) {
                 showBottomBar.invoke(false)
@@ -150,16 +147,31 @@ fun AppNavGraph(
         }
 
         composable(route = EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
-
+            val viewModel = koinViewModel<CategoriesViewModel>()
+            LaunchedEffect(true) {
+                showBottomBar.invoke(true)
+            }
+            CategoriesScreenRoot(
+                viewModel = viewModel
+            )
         }
         composable(EBooksLibraryAppDestinations.AUTHORS_ROUTE) {
-
+            val viewModel = koinViewModel<AuthorsViewModel>()
+            LaunchedEffect(true) {
+                showBottomBar.invoke(true)
+            }
+            AuthorsScreenRoot(
+                viewModel = viewModel
+            )
         }
-        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE,
-//            enterTransition ={ fadeIn()},
-//            exitTransition ={ fadeOut()}
-        ) {
-
+        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE) {
+            val viewModel = koinViewModel<ProfileViewModel>()
+            LaunchedEffect(true) {
+                showBottomBar.invoke(true)
+            }
+            ProfileScreenRoot(
+                viewModel = viewModel
+            )
         }
     }
 }

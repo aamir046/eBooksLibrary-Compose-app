@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.presentation.bookdetails.components
+package com.aamir.compose.eBooksLibrary.core.presentation
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,19 +21,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsAppBar(
+fun SecondaryAppBar(
+    title:String = "No Title",
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {}
+    onBackClick: (Boolean) -> Unit = {}
 ){
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Book Details",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold
             )
         },
         modifier = modifier.fillMaxWidth(),
@@ -43,7 +43,7 @@ fun BookDetailsAppBar(
                     .padding(horizontal = 8.dp)
                     .height(40.dp)
                     .width(40.dp),
-                onClick = { onBackClick.invoke() }
+                onClick = { onBackClick.invoke(true) }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
@@ -59,8 +59,8 @@ fun BookDetailsAppBar(
 
 }
 
-@Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
+@Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable
-fun BookDetailsAppBarPreview() {
-    BookDetailsAppBar()
+fun SecondaryAppBarPreview() {
+    SecondaryAppBar()
 }

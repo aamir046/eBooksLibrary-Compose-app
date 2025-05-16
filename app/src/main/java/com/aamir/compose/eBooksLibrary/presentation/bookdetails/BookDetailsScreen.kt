@@ -33,8 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.R
+import com.aamir.compose.eBooksLibrary.core.presentation.SecondaryAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
-import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.BookDetailsAppBar
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.RatingBar
 import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
 
@@ -66,7 +66,8 @@ fun BookDetailsScreen(
 ) {
     Scaffold(
         topBar = {
-            BookDetailsAppBar(
+            SecondaryAppBar(
+                title = "Book Details",
                 onBackClick = { actions(BookDetailsScreenActions.OnBackClick) }
             )
         },

@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.presentation.notifications.components.NotificationsAppBar
+import com.aamir.compose.eBooksLibrary.core.presentation.SecondaryAppBar
 import com.aamir.compose.eBooksLibrary.presentation.notifications.components.NotificationsListing
 
 @Composable
@@ -46,7 +46,8 @@ fun NotificationsScreen(
 ) {
     Scaffold(
         topBar = {
-            NotificationsAppBar(
+            SecondaryAppBar(
+                title = "Notifications",
                 onBackClick = { onActions(NotificationsScreenActions.OnBackClick) }
             )
         },
