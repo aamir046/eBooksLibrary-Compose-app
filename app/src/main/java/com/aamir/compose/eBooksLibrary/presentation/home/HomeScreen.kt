@@ -3,11 +3,9 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -17,7 +15,6 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.core.presentation.MainAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListing
 import com.aamir.compose.eBooksLibrary.presentation.home.components.SectionItemUpcomingBooks
@@ -31,8 +28,8 @@ fun HomeScreenRoot(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val onActions: (HomeScreenActions) -> Unit = {action->
-        when(action){
+    val onActions: (HomeScreenActions) -> Unit = { action ->
+        when (action) {
             is HomeScreenActions.OnBookClick -> onBookClick(action.book)
             is HomeScreenActions.OnSearchClick -> onSearchClick()
             is HomeScreenActions.OnNotificationsClick -> onNotificationsClick()
@@ -55,58 +52,47 @@ fun HomeScreen(
 
     val scrollState = rememberLazyListState()
 
-    Scaffold(
-        topBar = {
-            MainAppBar(
-                onSearchClick = { onActions(HomeScreenActions.OnSearchClick) },
-                onNotificationsClick = { onActions(HomeScreenActions.OnNotificationsClick) }
-            )
-        },
-        modifier = modifier.fillMaxSize()
-    ) { innerPadding ->
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
 
-        Box(
-            modifier = modifier
-                .padding(innerPadding)
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .nestedScroll(rememberNestedScrollInteropConnection()),
+            state = scrollState,
         ) {
+            items(uiState.screenSectionItems) { item ->
+                when (item) {
+                    is HomeScreenSectionItem.UpComingBooks -> SectionItemUpcomingBooks(
+                        books = item.upComingBooks
+                    )
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(rememberNestedScrollInteropConnection()),
-                state = scrollState,
-            ) {
-                items(uiState.screenSectionItems) { item ->
-                    when (item) {
-                        is HomeScreenSectionItem.UpComingBooks -> SectionItemUpcomingBooks(
-                           books = item.upComingBooks
-                        )
-                        is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(
-                            rowTitle = uiState.titleRecommendedBooks,
-                            books = item.recommendedBooks,
-                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
-                        )
+                    is HomeScreenSectionItem.RecommendedBooks -> HorizontalBooksListing(
+                        rowTitle = uiState.titleRecommendedBooks,
+                        books = item.recommendedBooks,
+                        onBookClick = { onActions.invoke(HomeScreenActions.OnBookClick(it)) }
+                    )
 
-                        is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(
-                            rowTitle = uiState.titlePopularBooks,
-                            books = item.popularBooks,
-                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
-                        )
+                    is HomeScreenSectionItem.PopularBooks -> HorizontalBooksListing(
+                        rowTitle = uiState.titlePopularBooks,
+                        books = item.popularBooks,
+                        onBookClick = { onActions.invoke(HomeScreenActions.OnBookClick(it)) }
+                    )
 
-                        is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(
-                            rowTitle = uiState.titleTopSearchedBooks,
-                            books = item.topSearchedBooks,
-                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
-                        )
+                    is HomeScreenSectionItem.TopSearchedBooks -> HorizontalBooksListing(
+                        rowTitle = uiState.titleTopSearchedBooks,
+                        books = item.topSearchedBooks,
+                        onBookClick = { onActions.invoke(HomeScreenActions.OnBookClick(it)) }
+                    )
 
-                        is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(
-                            rowTitle = uiState.tileNewReleasedBooks,
-                            books = item.newReleasedBooks,
-                            onBookClick = {onActions.invoke(HomeScreenActions.OnBookClick(it))}
-                        )
-                    }
+                    is HomeScreenSectionItem.NewReleasedBooks -> HorizontalBooksListing(
+                        rowTitle = uiState.tileNewReleasedBooks,
+                        books = item.newReleasedBooks,
+                        onBookClick = { onActions.invoke(HomeScreenActions.OnBookClick(it)) }
+                    )
                 }
             }
         }

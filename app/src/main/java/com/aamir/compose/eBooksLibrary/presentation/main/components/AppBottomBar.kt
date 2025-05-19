@@ -30,7 +30,7 @@ fun AppBottomBar(navController: NavHostController?=null){
     )
 
     val currentRoute = navController?.currentBackStackEntryAsState()?.value?.destination?.route
-
+    var lastClickTime = 0L
     NavigationBar(
         modifier = Modifier.clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
         containerColor = Gray,
@@ -43,11 +43,16 @@ fun AppBottomBar(navController: NavHostController?=null){
                 selected = currentRoute == item.route,
                 onClick = {
                     if (currentRoute != item.route) {
-                        navController?.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                        val now = System.currentTimeMillis()
+                        if (now - lastClickTime > 1000) {
+                            lastClickTime = now
+                            navController?.navigate(item.route) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
+
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(

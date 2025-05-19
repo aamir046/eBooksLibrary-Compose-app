@@ -34,11 +34,11 @@ fun MainAppBar(
 ){
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.ExtraBold
-            )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                )
         },
         modifier = Modifier.fillMaxWidth(),
         colors = TopAppBarDefaults.topAppBarColors(
@@ -48,7 +48,6 @@ fun MainAppBar(
         navigationIcon ={
             IconButton(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .height(40.dp)
                     .width(40.dp),
                 onClick = { onSearchClick.invoke() }
@@ -62,7 +61,6 @@ fun MainAppBar(
         actions = {
             IconButton(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .height(40.dp)
                     .width(40.dp),
                 onClick = { onNotificationsClick.invoke() }

@@ -25,6 +25,7 @@ import com.aamir.compose.eBooksLibrary.presentation.categories.CategoriesScreenR
 import com.aamir.compose.eBooksLibrary.presentation.categories.CategoriesViewModel
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
+import com.aamir.compose.eBooksLibrary.presentation.main.components.TopAppBarType
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.profiile.ProfileScreenRoot
@@ -38,10 +39,9 @@ fun AppNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = EBooksLibraryAppDestinations.HOME_ROUTE,
-    navActions: EBooksLibraryNavigation = remember(navController) {
-        EBooksLibraryNavigation(navController)
-    },
-    showBottomBar:(Boolean)->Unit={}
+    navActions: EBooksLibraryNavigation = EBooksLibraryNavigation(navController),
+    showBottomBar:(Boolean)->Unit={},
+    topAppBarType:(TopAppBarType)->Unit={}
 ) {
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentNavBackStackEntry?.destination?.route ?: startDestination
@@ -68,20 +68,16 @@ fun AppNavGraph(
 
             LaunchedEffect(true) {
                 selectedBookViewModel.onSelectBook(null)
-                showBottomBar.invoke(true)
             }
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.MainAppBar("Home"))
 
             HomeScreenRoot(
                 viewModel = viewModel,
                 onBookClick = { book ->
                     selectedBookViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
-                },
-                onSearchClick = {
-                        navActions.navigateToNoteSearchScreen()
-                },
-                onNotificationsClick = {
-                        navActions.navigateToNoteNotificationsScreen()
                 }
             )
         }
@@ -98,14 +94,14 @@ fun AppNavGraph(
                 selectedBook?.let {
                     viewModel.onSelectBook(selectedBook)
                 }
-                showBottomBar.invoke(false)
             }
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Book Details"))
 
             BookDetailsScreenRoot(
                 viewModel = viewModel,
-                onBackClick = {
-                    navController.navigateUp()
-                }
+                
             )
         }
 
@@ -118,8 +114,10 @@ fun AppNavGraph(
 
             LaunchedEffect(true) {
                 selectedBookViewModel.onSelectBook(null)
-                showBottomBar.invoke(false)
             }
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Search"))
 
             SearchScreenRoot(
                 viewModel = viewModel,
@@ -127,48 +125,48 @@ fun AppNavGraph(
                     selectedBookViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
                 },
-                onBackClick = {
-                    navController.navigateUp()
-                }
+                
             )
         }
 
         composable(EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE) {
             val viewModel = koinViewModel<NotificationsViewModel>()
-            LaunchedEffect(true) {
-                showBottomBar.invoke(false)
-            }
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Notifications"))
+
             NotificationsScreenRoot(
                 viewModel = viewModel,
-                onBackClick = {
-                    navController.navigateUp()
-                }
+                
             )
         }
 
         composable(route = EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
             val viewModel = koinViewModel<CategoriesViewModel>()
-            LaunchedEffect(true) {
-                showBottomBar.invoke(true)
-            }
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.MainAppBar("Categories"))
+
             CategoriesScreenRoot(
                 viewModel = viewModel
             )
         }
         composable(EBooksLibraryAppDestinations.AUTHORS_ROUTE) {
             val viewModel = koinViewModel<AuthorsViewModel>()
-            LaunchedEffect(true) {
-                showBottomBar.invoke(true)
-            }
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.MainAppBar("Authors"))
+
             AuthorsScreenRoot(
                 viewModel = viewModel
             )
         }
         composable(EBooksLibraryAppDestinations.PROFILE_ROUTE) {
             val viewModel = koinViewModel<ProfileViewModel>()
-            LaunchedEffect(true) {
-                showBottomBar.invoke(true)
-            }
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.MainAppBar("Profile"))
+
             ProfileScreenRoot(
                 viewModel = viewModel
             )

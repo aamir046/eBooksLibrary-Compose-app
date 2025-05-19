@@ -1,13 +1,11 @@
 package com.aamir.compose.eBooksLibrary.presentation.search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.core.presentation.SecondaryAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.search.components.RecentSearches
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchBar
@@ -25,7 +22,7 @@ import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResu
 @Composable
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
-    onSearchResultSelected: (book:Book)-> Unit = {},
+    onSearchResultSelected: (book: Book) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -38,7 +35,6 @@ fun SearchScreenRoot(
                 viewModel.onActions(action)
             }
         }
-
     }
 
     SearchScreen(
@@ -51,66 +47,49 @@ fun SearchScreenRoot(
 @Composable
 fun SearchScreen(
     uiState: SearchScreenState,
-    modifier: Modifier= Modifier,
+    modifier: Modifier = Modifier,
     onActions: (SearchScreenActions) -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            SecondaryAppBar(
-                title = "Search",
-                onBackClick = { onActions(SearchScreenActions.OnBackClick) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        SearchBar(
+            modifier = Modifier.padding(16.dp),
+            searchQuery = uiState.searchQuery,
+            onSearchQuery = { searchQuery ->
+                onActions(SearchScreenActions.OnSearchQuery(searchQuery))
+            }
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        uiState.takeIf {
+            it.searchQuery.isNotEmpty() && it.recentSearches.isNotEmpty()
+        }?.let {
+            SearchResultList(
+                modifier = Modifier
+                    .fillMaxSize(),
+                searchResult = it.searchResult,
+                onSearchResultSelected = { book ->
+                    onActions(SearchScreenActions.OnSearchResultSelected(book))
+                }
             )
-        },
-        modifier = modifier.fillMaxSize()
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            Column(
+        }
+
+        uiState.takeIf {
+            it.searchQuery.isEmpty() && it.recentSearches.isNotEmpty()
+        }?.let {
+            RecentSearches(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
-            ) {
-                SearchBar(
-                    modifier = Modifier.padding(16.dp),
-                    searchQuery = uiState.searchQuery,
-                    onSearchQuery = { searchQuery ->
-                        onActions(SearchScreenActions.OnSearchQuery(searchQuery))
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                uiState.takeIf {
-                    it.searchQuery.isNotEmpty() && it.recentSearches.isNotEmpty()
-                }?.let {
-                    SearchResultList(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        searchResult = it.searchResult,
-                        onSearchResultSelected = { book ->
-                            onActions(SearchScreenActions.OnSearchResultSelected(book))
-                        }
-                    )
+                    .padding(horizontal = 16.dp),
+                recentSearches = it.recentSearches,
+                onRecentSearchSelected = { searchText ->
+                    onActions(SearchScreenActions.OnRecentSearchSelected(searchText))
                 }
-
-                uiState.takeIf {
-                    it.searchQuery.isEmpty() && it.recentSearches.isNotEmpty()
-                }?.let {
-                    RecentSearches(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp),
-                        recentSearches = it.recentSearches,
-                        onRecentSearchSelected = { searchText ->
-                            onActions(SearchScreenActions.OnRecentSearchSelected(searchText))
-                        }
-                    )
-                }
-            }
+            )
         }
     }
 }

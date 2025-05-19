@@ -2,7 +2,6 @@ package com.aamir.compose.eBooksLibrary.core.presentation
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +39,6 @@ fun SecondaryAppBar(
         navigationIcon = {
             IconButton(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .height(40.dp)
                     .width(40.dp),
                 onClick = { onBackClick.invoke(true) }

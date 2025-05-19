@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.R
-import com.aamir.compose.eBooksLibrary.core.presentation.SecondaryAppBar
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.RatingBar
 import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
@@ -64,108 +62,99 @@ fun BookDetailsScreen(
     modifier: Modifier = Modifier,
     actions: (BookDetailsScreenActions) -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            SecondaryAppBar(
-                title = "Book Details",
-                onBackClick = { actions(BookDetailsScreenActions.OnBackClick) }
-            )
-        },
-        modifier = modifier.fillMaxSize()
-    ) { innerPadding ->
-        Box(modifier = Modifier
-            .padding(innerPadding)
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)){
-            Column(
+            .background(Color.White)
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = 12.dp, start = 12.dp, end = 12.dp)
+        ) {
+            LoadBookCoverImage(
+                url = uiState.book?.imageUrl ?: "",
+                contentDescription = "Book Cover Picture",
+                modifier = Modifier
+                    .shadow(elevation = 8.dp, shape = RoundedCornerShape(20.dp))
+                    .fillMaxWidth(0.61f)
+                    .fillMaxHeight(0.47f)
+                    .align(Alignment.CenterHorizontally)
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.FillBounds,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
                 modifier = modifier
-                    .fillMaxSize()
-                    .padding(top = 12.dp, start = 12.dp, end = 12.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                LoadBookCoverImage(
-                    url = uiState.book?.imageUrl ?: "",
-                    contentDescription = "Book Cover Picture",
-                    modifier = Modifier
-                        .shadow(elevation = 8.dp, shape = RoundedCornerShape(20.dp))
-                        .fillMaxWidth(0.61f)
-                        .fillMaxHeight(0.47f)
-                        .align(Alignment.CenterHorizontally)
-                        .border(1.dp, Color.LightGray, RoundedCornerShape(20.dp)),
-                    contentScale = ContentScale.FillBounds,
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = uiState.book?.title ?: "",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.DarkGray,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    IconButton(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .height(34.dp)
-                            .width(34.dp),
-                        onClick = {  }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_fav_unchecked),
-                            contentDescription = "Search",
-                            tint = Color.Unspecified
-                        )
-                    }
-                }
-
                 Text(
-                    text = uiState.book?.author ?: "",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.DarkGray,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Column {
-                    Text(
-                        text = "Review",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.DarkGray,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    RatingBar(rating = 4.5f)
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = "Synopsis",
+                    text = uiState.book?.title ?: "",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.DarkGray,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = modifier.fillMaxWidth()
+                    modifier = Modifier.weight(1f)
                 )
 
-                Text(
-                    text = uiState.book?.description ?: "",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.DarkGray,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                )
+                IconButton(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .height(34.dp)
+                        .width(34.dp),
+                    onClick = { }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_fav_unchecked),
+                        contentDescription = "Search",
+                        tint = Color.Unspecified
+                    )
+                }
             }
+
+            Text(
+                text = uiState.book?.author ?: "",
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.DarkGray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Column {
+                Text(
+                    text = "Review",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.DarkGray,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                RatingBar(rating = 4.5f)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Synopsis",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.DarkGray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = modifier.fillMaxWidth()
+            )
+
+            Text(
+                text = uiState.book?.description ?: "",
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.DarkGray,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
         }
     }
 }
