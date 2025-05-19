@@ -1,7 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.notifications.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.domain.BookInfoNotification
-import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.presentation.theme.PurpleMedium
 
 @Composable
@@ -55,7 +54,7 @@ fun ItemBookInfoNotifications(
                 .padding(all = 16.dp)
             ) {
 
-                LoadBookCoverImage(
+                LoadRemoteImage(
                     url = notification?.book?.imageUrl ?: "",
                     contentDescription = "Book Cover Picture",
                     contentScale = ContentScale.FillBounds,

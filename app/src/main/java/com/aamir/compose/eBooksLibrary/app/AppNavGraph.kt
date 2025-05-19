@@ -165,7 +165,7 @@ fun AppNavGraph(
             val viewModel = koinViewModel<ProfileViewModel>()
 
             showBottomBar.invoke(true)
-            topAppBarType.invoke(TopAppBarType.MainAppBar("Profile"))
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Profile"))
 
             ProfileScreenRoot(
                 viewModel = viewModel

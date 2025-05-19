@@ -46,6 +46,11 @@ fun MainComposable(
                         navController.navigateUp()
                     }
                 )
+
+                is TopAppBarType.SecondaryAppBarNoBack -> SecondaryAppBar(
+                    title = (topAppBarType.value as TopAppBarType.SecondaryAppBarNoBack).title,
+                    isShowBackIcon = false
+                )
             }
         },
         bottomBar = {
@@ -78,6 +83,7 @@ fun MainComposable(
 sealed interface TopAppBarType {
     data class MainAppBar(val title: String) : TopAppBarType
     data class SecondaryAppBar(val title: String) : TopAppBarType
+    data class SecondaryAppBarNoBack(val title: String) : TopAppBarType
 }
 
 

@@ -1,15 +1,24 @@
 package com.aamir.compose.eBooksLibrary.presentation.profiile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.presentation.profiile.components.ProfileListingCard
+import com.aamir.compose.eBooksLibrary.presentation.profiile.components.UserInfoCard
 
 @Composable
 fun ProfileScreenRoot(
@@ -33,12 +42,25 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     onActions: (ProfileScreenActions) -> Unit
 ) {
-    Box(
+    Column (
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
     ) {
-
+        UserInfoCard(
+            modifier = Modifier,
+            userName = uiState.userName,
+            userEmail = uiState.userEmail
+        )
+        Spacer(modifier = Modifier.padding(16.dp))
+        uiState.profileListingItems.forEach {
+            ProfileListingCard(
+                modifier = Modifier,
+                iconRes = it.iconRes,
+                title = it.title
+            )
+        }
     }
 }
 

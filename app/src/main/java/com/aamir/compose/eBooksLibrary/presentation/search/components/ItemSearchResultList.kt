@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.domain.Book
-import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 
 @Composable
 fun ItemSearchResultList(
@@ -34,7 +34,7 @@ fun ItemSearchResultList(
             .padding(all = 8.dp)
             .clickable(enabled = true) { onSearchResultSelected.invoke(book) }
     ) {
-        LoadBookCoverImage(
+        LoadRemoteImage(
             url = book.imageUrl,
             contentDescription = "Book Cover Picture",
             modifier = Modifier

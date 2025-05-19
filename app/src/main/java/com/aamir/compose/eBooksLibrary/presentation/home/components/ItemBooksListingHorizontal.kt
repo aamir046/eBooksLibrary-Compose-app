@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.domain.Book
 
 @Composable
@@ -34,7 +35,7 @@ fun ItemBooksListingHorizontal(
             .padding(horizontal = 8.dp)
             .clickable(enabled = true) { onBookClick(book) }
     ) {
-        LoadBookCoverImage(
+        LoadRemoteImage(
             url = book.imageUrl,
             contentDescription = "Book Cover Picture",
             modifier = Modifier

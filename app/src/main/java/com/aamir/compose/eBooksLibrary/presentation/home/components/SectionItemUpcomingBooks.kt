@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.domain.Book
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
@@ -165,7 +166,7 @@ fun UpComingBooksLaunchCard(book: Book){
             }
 
             Column(modifier = Modifier.fillMaxHeight().fillMaxWidth().background(Color.Black)) {
-                LoadBookCoverImage(
+                LoadRemoteImage(
                     url = book.imageUrl,
                     contentDescription = "Book Cover Picture",
                     contentScale = ContentScale.FillBounds,

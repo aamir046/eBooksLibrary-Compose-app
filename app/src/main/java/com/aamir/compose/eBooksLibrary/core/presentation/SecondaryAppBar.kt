@@ -25,7 +25,8 @@ import com.aamir.compose.eBooksLibrary.R
 fun SecondaryAppBar(
     title:String = "No Title",
     modifier: Modifier = Modifier,
-    onBackClick: (Boolean) -> Unit = {}
+    onBackClick: () -> Unit = {},
+    isShowBackIcon:Boolean = true
 ){
     CenterAlignedTopAppBar(
         title = {
@@ -37,16 +38,18 @@ fun SecondaryAppBar(
         },
         modifier = modifier.fillMaxWidth(),
         navigationIcon = {
-            IconButton(
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp),
-                onClick = { onBackClick.invoke(true) }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = "Notifications"
-                )
+            isShowBackIcon.takeIf { it }?.also {
+                IconButton(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .width(40.dp),
+                    onClick = { onBackClick.invoke() }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_left),
+                        contentDescription = "Notifications"
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

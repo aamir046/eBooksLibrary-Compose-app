@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.R
 import com.aamir.compose.eBooksLibrary.domain.Book
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.RatingBar
-import com.aamir.compose.eBooksLibrary.presentation.home.components.LoadBookCoverImage
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 
 @Composable
 fun BookDetailsScreenRoot(
@@ -72,7 +72,7 @@ fun BookDetailsScreen(
                 .fillMaxSize()
                 .padding(top = 12.dp, start = 12.dp, end = 12.dp)
         ) {
-            LoadBookCoverImage(
+            LoadRemoteImage(
                 url = uiState.book?.imageUrl ?: "",
                 contentDescription = "Book Cover Picture",
                 modifier = Modifier
