@@ -32,7 +32,6 @@ fun UserInfoCard(
     modifier: Modifier = Modifier,
     userName: String = "",
     userEmail:String = ""
-
 ){
     Column(
         modifier = modifier

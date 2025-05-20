@@ -19,7 +19,7 @@ val appModule = module {
     single { SearchRepository() }
     viewModelOf(::HomeViewModel)
     viewModelOf(::SearchViewModel)
-    viewModel { CategoriesViewModel() }
+    viewModelOf(::CategoriesViewModel)
     viewModel { AuthorsViewModel() }
     viewModel { ProfileViewModel() }
     viewModel { SharedViewModel() }
