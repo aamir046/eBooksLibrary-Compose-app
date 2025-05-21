@@ -33,10 +33,10 @@ fun MainComposable(
                 is TopAppBarType.MainAppBar -> MainAppBar(
                     title = (topAppBarType.value as TopAppBarType.MainAppBar).title,
                     onSearchClick = {
-                        navActions.navigateToNoteSearchScreen()
+                        navActions.navigateToSearchScreen()
                     },
                     onNotificationsClick = {
-                        navActions.navigateToNoteNotificationsScreen()
+                        navActions.navigateToNotificationsScreen()
                     }
                 )
 

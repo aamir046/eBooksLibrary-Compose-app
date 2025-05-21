@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.presentation.profiile
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,17 +17,22 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.presentation.profiile.components.ProfileListingCard
-import com.aamir.compose.eBooksLibrary.presentation.profiile.components.UserInfoCard
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.components.ProfileListingCard
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.components.UserInfoCard
 
 @Composable
 fun ProfileScreenRoot(
-    viewModel: ProfileViewModel
+    viewModel: ProfileViewModel,
+    onProfileListingItemClick: (String) -> Unit = {}
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val onActions: (ProfileScreenActions) -> Unit = { action -> }
+    val onActions: (ProfileScreenActions) -> Unit = { action ->
+        when(action){
+            is ProfileScreenActions.OnProfileListingItemClick -> onProfileListingItemClick(action.targetRoute)
+        }
+    }
 
     ProfileScreen(
         uiState = uiState,
@@ -58,7 +63,11 @@ fun ProfileScreen(
             ProfileListingCard(
                 modifier = Modifier,
                 iconRes = it.iconRes,
-                title = it.title
+                title = it.title,
+                targetRoute = it.targetRoute,
+                onItemClick = {targetRoute->
+                    onActions(ProfileScreenActions.OnProfileListingItemClick(targetRoute))
+                }
             )
         }
     }

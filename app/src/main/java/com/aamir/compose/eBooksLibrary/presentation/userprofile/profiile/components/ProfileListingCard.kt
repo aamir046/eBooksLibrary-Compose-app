@@ -1,7 +1,8 @@
-package com.aamir.compose.eBooksLibrary.presentation.profiile.components
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,15 +40,19 @@ import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 @Composable
 fun ProfileListingCard(
     modifier: Modifier = Modifier,
-    onItemClick: () -> Unit = {},
+    onItemClick: (String) -> Unit = {},
     iconRes: Int = R.drawable.ic_my_account,
-    title: String = "My Account"
+    title: String = "My Account",
+    targetRoute: String = ""
 ){
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .background(Color.White)
+            .clickable {
+                onItemClick.invoke(targetRoute)
+            }
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),

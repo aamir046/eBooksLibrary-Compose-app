@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.presentation.profiile
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile
 
 data class ProfileScreenState(
     val userName: String = "Muhammad Aamir",

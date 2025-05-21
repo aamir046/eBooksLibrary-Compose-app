@@ -32,13 +32,15 @@ import com.aamir.compose.eBooksLibrary.presentation.home.components.ItemBooksLis
 @Composable
 fun AuthorDetailsScreenRoot(
     viewModel: AuthorDetailsViewModel,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onBookSelected: (Book) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val actions: (AuthorDetailsScreenActions) -> Unit = { action ->
         when (action) {
             is AuthorDetailsScreenActions.OnBackClick -> onBackClick()
+            is AuthorDetailsScreenActions.OnBookSelected -> onBookSelected(action.book)
         }
     }
 
@@ -83,14 +85,16 @@ fun AuthorDetailsScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             LazyRow(Modifier.fillMaxWidth()){
-                items(uiState.books){
+                items(uiState.books){book->
                     ItemBooksListingHorizontal(
-                        modifier = if(it == uiState.books.last())
+                        modifier = if(book == uiState.books.last())
                             Modifier.padding(horizontal = 12.dp)
                         else
                             Modifier.padding(start = 12.dp),
-                        book = it,
-                        onBookClick = {}
+                        book = book,
+                        onBookClick = {
+                            actions.invoke(AuthorDetailsScreenActions.OnBookSelected(it))
+                        }
                     )
                 }
             }

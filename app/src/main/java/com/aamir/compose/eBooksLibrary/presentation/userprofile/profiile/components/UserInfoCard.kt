@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.presentation.profiile.components
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -21,6 +21,7 @@ import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.CATEGORIES_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HOME_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.MY_ACCOUNT_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.PROFILE_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.SEARCH_ROUTE
@@ -38,10 +39,12 @@ import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
 import com.aamir.compose.eBooksLibrary.presentation.main.components.TopAppBarType
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
-import com.aamir.compose.eBooksLibrary.presentation.profiile.ProfileScreenRoot
-import com.aamir.compose.eBooksLibrary.presentation.profiile.ProfileViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.ProfileScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.ProfileViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -86,7 +89,7 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onBookClick = { book ->
                     sharedViewModel.onSelectBook(book)
-                    navActions.navigateToNoteDetailsScreen()
+                    navActions.navigateToBookDetailsScreen()
                 }
             )
         }
@@ -127,7 +130,7 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onSearchResultSelected = {book->
                     sharedViewModel.onSelectBook(book)
-                    navActions.navigateToNoteDetailsScreen()
+                    navActions.navigateToBookDetailsScreen()
                 },
 
             )
@@ -159,7 +162,7 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onBookClick = {book->
                     sharedViewModel.onSelectBook(book)
-                    navActions.navigateToNoteDetailsScreen()
+                    navActions.navigateToBookDetailsScreen()
                 }
             )
         }
@@ -192,7 +195,29 @@ fun AppNavGraph(
             showBottomBar.invoke(true)
             topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Profile"))
 
-            ProfileScreenRoot(viewModel = viewModel)
+            ProfileScreenRoot(
+                viewModel = viewModel,
+                onProfileListingItemClick = { targetRoute->
+                    when(targetRoute){
+                        MY_ACCOUNT_ROUTE->navActions.navigateToMyAccountScreen()
+                    }
+
+                }
+            )
+        }
+
+        composable(MY_ACCOUNT_ROUTE) {
+            val viewModel = koinViewModel<MyAccountViewModel>()
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("My Account"))
+
+            MyAccountScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
 
         composable(AUTHORS_DETAILS_ROUTE) {backStackEntry ->
@@ -201,6 +226,10 @@ fun AppNavGraph(
 
             val viewModel = koinViewModel<AuthorDetailsViewModel>()
             val selectedAuthor by sharedViewModel.selectedAuthor.collectAsStateWithLifecycle()
+
+            LaunchedEffect(true) {
+                sharedViewModel.onSelectBook(null)
+            }
 
             LaunchedEffect(selectedAuthor) {
                 selectedAuthor?.let {
@@ -215,6 +244,10 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()
+                },
+                onBookSelected = {book->
+                    sharedViewModel.onSelectBook(book)
+                    navActions.navigateToBookDetailsScreen()
                 }
             )
         }

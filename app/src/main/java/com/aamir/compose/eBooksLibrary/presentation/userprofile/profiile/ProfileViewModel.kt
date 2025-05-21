@@ -1,8 +1,9 @@
-package com.aamir.compose.eBooksLibrary.presentation.profiile
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aamir.compose.eBooksLibrary.R
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.MY_ACCOUNT_ROUTE
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,23 +28,28 @@ class ProfileViewModel:ViewModel() {
                 profileListingItems = listOf(
                     ProfileListingItem(
                         iconRes = R.drawable.ic_my_account,
-                        title = "My Account"
+                        title = "My Account",
+                        targetRoute = MY_ACCOUNT_ROUTE
                     ),
                     ProfileListingItem(
                         iconRes = R.drawable.ic_address,
-                        title = "Address"
+                        title = "Address",
+                        targetRoute = ""
                     ),
                     ProfileListingItem(
                         iconRes = R.drawable.ic_promos_offers,
-                        title = "Offers & Promos"
+                        title = "Offers & Promos",
+                        targetRoute = ""
                     ),
                     ProfileListingItem(
                         iconRes = R.drawable.ic_favrourites,
-                        title = "Favourites"
+                        title = "Favourites",
+                        targetRoute = ""
                     ),
                     ProfileListingItem(
                         iconRes = R.drawable.ic_help_center,
-                        title = "Help Center"
+                        title = "Help Center",
+                        targetRoute = ""
                     ),
 
                 )

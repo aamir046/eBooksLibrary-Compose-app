@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppArgs.BOOK_ARG
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HOME_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.MY_ACCOUNT_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.SEARCH_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.AUTHORS_DETAILS_SCREEN
@@ -12,6 +13,7 @@ import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.AUTHORS_SCREE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.BOOK_DETAILS_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.CATEGORIES_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.HOME_SCREEN
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.MY_ACCOUNT_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.NOTIFICATIONS_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.PROFILE_SCREEN
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppScreens.SEARCH_SCREEN
@@ -28,6 +30,7 @@ private object EBooksLibraryAppScreens {
     const val AUTHORS_SCREEN = "AUTHORS_SCREEN"
     const val AUTHORS_DETAILS_SCREEN = "AUTHORS_DETAILS_SCREEN"
     const val PROFILE_SCREEN = "PROFILE_SCREEN"
+    const val MY_ACCOUNT_SCREEN = "MY_ACCOUNT_SCREEN"
 }
 
 /**
@@ -50,24 +53,25 @@ object EBooksLibraryAppDestinations {
     const val AUTHORS_ROUTE = AUTHORS_SCREEN
     const val AUTHORS_DETAILS_ROUTE = AUTHORS_DETAILS_SCREEN
     const val PROFILE_ROUTE = PROFILE_SCREEN
+    const val MY_ACCOUNT_ROUTE = MY_ACCOUNT_SCREEN
 }
 
 /**
  * Models the navigation actions in the app.
  */
 class EBooksLibraryNavigation(private val navController: NavHostController) {
-    fun navigateToNoteDetailsScreen() {
+    fun navigateToBookDetailsScreen() {
         navController.navigate(
             BOOK_DETAILS_ROUTE
         )
     }
 
-    fun navigateToNoteSearchScreen() {
+    fun navigateToSearchScreen() {
         navController.navigate(
             SEARCH_ROUTE
         )
     }
-    fun navigateToNoteNotificationsScreen() {
+    fun navigateToNotificationsScreen() {
         navController.navigate(
             NOTIFICATIONS_ROUTE
         )
@@ -75,6 +79,11 @@ class EBooksLibraryNavigation(private val navController: NavHostController) {
     fun navigateToAuthorDetailsScreen() {
         navController.navigate(
             AUTHORS_DETAILS_SCREEN
+        )
+    }
+    fun navigateToMyAccountScreen() {
+        navController.navigate(
+            MY_ACCOUNT_ROUTE
         )
     }
 
