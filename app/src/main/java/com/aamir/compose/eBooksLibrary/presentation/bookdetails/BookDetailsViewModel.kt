@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class BookDetailsViewModel:ViewModel(){
-    private val _uiState = MutableStateFlow<BookDetailsScreenState>(BookDetailsScreenState())
+    private val _uiState = MutableStateFlow(BookDetailsScreenState())
 
     val uiState = _uiState.onStart {
      //   updateBookDetails()

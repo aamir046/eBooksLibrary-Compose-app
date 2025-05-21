@@ -22,7 +22,7 @@ import com.aamir.compose.eBooksLibrary.presentation.home.components.SectionItemU
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel,
-    onBookClick: (Book) -> Unit,
+    onBookClick: (Book) -> Unit = {},
     onSearchClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
 ) {

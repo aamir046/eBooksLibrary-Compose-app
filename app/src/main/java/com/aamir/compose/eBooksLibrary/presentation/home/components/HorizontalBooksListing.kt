@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -37,11 +38,18 @@ fun HorizontalBooksListing(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )
 
-       LazyRow(modifier = modifier.fillMaxSize()) {
-           items(books, key = { it.title} ){book->
-               ItemBooksListingHorizontal(book, onBookClick)
-           }
-       }
+        LazyRow(modifier = modifier.fillMaxSize()) {
+            items(books, key = { it.title }) { book ->
+                ItemBooksListingHorizontal(
+                    modifier =  if(book == books.last())
+                        Modifier.padding(horizontal = 12.dp)
+                    else
+                        Modifier.padding(start = 12.dp),
+                    book = book,
+                    onBookClick = onBookClick
+                )
+            }
+        }
     }
 }
 
@@ -67,20 +75,6 @@ fun HorizontalBooksListingPreview() {
                         year = "1949",
                         description = "A chilling vision of a dystopian world under total surveillance.",
                         imageUrl = "https://images.penguinrandomhouse.com/cover/9780679417392"
-                    ),
-                    Book(
-                        author = "J.K. Rowling",
-                        title = "Harry Potter and the Sorcerer's Stone",
-                        year = "1997",
-                        description = "The beginning of Harry Potter’s magical journey at Hogwarts.",
-                        imageUrl = "https://images.gr-assets.com/books/1474154022l/3.jpg"
-                    ),
-                    Book(
-                        author = "J.R.R. Tolkien",
-                        title = "The Lord of the Rings",
-                        year = "1954",
-                        description = "An epic fantasy quest to destroy the One Ring and defeat evil.",
-                        imageUrl = "https://images.gr-assets.com/books/1566425108l/33.jpg"
                     )
                 )
             )

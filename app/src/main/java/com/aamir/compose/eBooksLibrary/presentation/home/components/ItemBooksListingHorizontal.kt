@@ -25,15 +25,15 @@ import com.aamir.compose.eBooksLibrary.domain.Book
 
 @Composable
 fun ItemBooksListingHorizontal(
+    modifier: Modifier = Modifier,
     book: Book,
     onBookClick: (Book) -> Unit
 ){
-    Column(
-        modifier= Modifier
-            .wrapContentHeight()
-            .width(175.dp)
-            .padding(horizontal = 8.dp)
-            .clickable(enabled = true) { onBookClick(book) }
+    Column(modifier= modifier
+        .width(155.dp)
+        .clickable(enabled = true) {
+            onBookClick(book)
+        }
     ) {
         LoadRemoteImage(
             url = book.imageUrl,
@@ -42,7 +42,7 @@ fun ItemBooksListingHorizontal(
                 .shadow(elevation = 8.dp, shape = RoundedCornerShape(10.dp))
                 .clipToBounds()
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(190.dp)
                 .border(1.dp, Color.LightGray, RoundedCornerShape(10.dp)),
             contentScale = ContentScale.FillBounds,
         )

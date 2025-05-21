@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun RatingBar(rating: Float, modifier: Modifier = Modifier) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -54,7 +53,7 @@ fun RatingBar(rating: Float, modifier: Modifier = Modifier) {
             )
         }
         Text(
-            text = "(${rating})",
+            text = "(${rating})".slice(1..3),
             style = MaterialTheme.typography.titleMedium,
             color = Color.Gray,
             fontWeight = FontWeight.SemiBold,

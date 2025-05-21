@@ -70,15 +70,15 @@ fun BookDetailsScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(top = 12.dp, start = 12.dp, end = 12.dp)
+                .padding(horizontal = 16.dp)
         ) {
             LoadRemoteImage(
                 url = uiState.book?.imageUrl ?: "",
                 contentDescription = "Book Cover Picture",
                 modifier = Modifier
                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20.dp))
-                    .fillMaxWidth(0.61f)
-                    .fillMaxHeight(0.47f)
+                    .fillMaxWidth(0.55f)
+                    .fillMaxHeight(0.39f)
                     .align(Alignment.CenterHorizontally)
                     .border(1.dp, Color.LightGray, RoundedCornerShape(20.dp)),
                 contentScale = ContentScale.FillBounds,
@@ -117,7 +117,7 @@ fun BookDetailsScreen(
             Text(
                 text = uiState.book?.author ?: "",
                 style = MaterialTheme.typography.labelLarge,
-                color = Color.DarkGray,
+                color = Color.Gray,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier.fillMaxWidth()
@@ -150,7 +150,7 @@ fun BookDetailsScreen(
             Text(
                 text = uiState.book?.description ?: "",
                 style = MaterialTheme.typography.labelLarge,
-                color = Color.DarkGray,
+                color = Color.Gray,
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)

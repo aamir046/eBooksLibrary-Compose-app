@@ -16,9 +16,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_DETAILS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.CATEGORIES_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HOME_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.PROFILE_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.SEARCH_ROUTE
 import com.aamir.compose.eBooksLibrary.core.presentation.SharedViewModel
-import com.aamir.compose.eBooksLibrary.presentation.authors.AuthorsScreenRoot
-import com.aamir.compose.eBooksLibrary.presentation.authors.AuthorsViewModel
+import com.aamir.compose.eBooksLibrary.presentation.authors.authordetails.AuthorDetailsScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.authors.authordetails.AuthorDetailsViewModel
+import com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting.AuthorsScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting.AuthorsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.BookDetailsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.categories.CategoriesScreenRoot
@@ -38,7 +48,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AppNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = EBooksLibraryAppDestinations.HOME_ROUTE,
+    startDestination: String = HOME_ROUTE,
     navActions: EBooksLibraryNavigation = EBooksLibraryNavigation(navController),
     showBottomBar:(Boolean)->Unit={},
     topAppBarType:(TopAppBarType)->Unit={}
@@ -59,15 +69,14 @@ fun AppNavGraph(
         ) },
     ) {
 
-        composable(
-            EBooksLibraryAppDestinations.HOME_ROUTE) { backStackEntry ->
+        composable(HOME_ROUTE) { backStackEntry ->
 
             val viewModel = koinViewModel<HomeViewModel>()
-            val selectedBookViewModel =
+            val sharedViewModel =
                 backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
 
             LaunchedEffect(true) {
-                selectedBookViewModel.onSelectBook(null)
+                sharedViewModel.onSelectBook(null)
             }
 
             showBottomBar.invoke(true)
@@ -76,19 +85,18 @@ fun AppNavGraph(
             HomeScreenRoot(
                 viewModel = viewModel,
                 onBookClick = { book ->
-                    selectedBookViewModel.onSelectBook(book)
+                    sharedViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
                 }
             )
         }
 
-        composable(
-            EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE) {backStackEntry ->
+        composable(BOOK_DETAILS_ROUTE) {backStackEntry ->
 
-            val selectedBookViewModel =
+            val sharedViewModel =
                 backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
             val viewModel = koinViewModel<BookDetailsViewModel>()
-            val selectedBook by selectedBookViewModel.selectedBook.collectAsStateWithLifecycle()
+            val selectedBook by sharedViewModel.selectedBook.collectAsStateWithLifecycle()
 
             LaunchedEffect(selectedBook) {
                 selectedBook?.let {
@@ -99,21 +107,17 @@ fun AppNavGraph(
             showBottomBar.invoke(false)
             topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Book Details"))
 
-            BookDetailsScreenRoot(
-                viewModel = viewModel,
-                
-            )
+            BookDetailsScreenRoot(viewModel = viewModel)
         }
 
-        composable(
-            EBooksLibraryAppDestinations.SEARCH_ROUTE) {backStackEntry ->
+        composable(SEARCH_ROUTE) {backStackEntry ->
 
             val viewModel = koinViewModel<SearchViewModel>()
-            val selectedBookViewModel =
+            val sharedViewModel =
                 backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
 
             LaunchedEffect(true) {
-                selectedBookViewModel.onSelectBook(null)
+                sharedViewModel.onSelectBook(null)
             }
 
             showBottomBar.invoke(false)
@@ -122,53 +126,96 @@ fun AppNavGraph(
             SearchScreenRoot(
                 viewModel = viewModel,
                 onSearchResultSelected = {book->
-                    selectedBookViewModel.onSelectBook(book)
+                    sharedViewModel.onSelectBook(book)
                     navActions.navigateToNoteDetailsScreen()
                 },
-                
+
             )
         }
 
-        composable(EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE) {
+        composable(NOTIFICATIONS_ROUTE) {
             val viewModel = koinViewModel<NotificationsViewModel>()
 
             showBottomBar.invoke(false)
             topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Notifications"))
 
-            NotificationsScreenRoot(
-                viewModel = viewModel,
-                
-            )
+            NotificationsScreenRoot(viewModel = viewModel)
         }
 
-        composable(route = EBooksLibraryAppDestinations.CATEGORIES_ROUTE) {
+        composable(CATEGORIES_ROUTE) { backStackEntry->
             val viewModel = koinViewModel<CategoriesViewModel>()
+
+            val sharedViewModel =
+                backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
+
+            LaunchedEffect(true) {
+                sharedViewModel.onSelectBook(null)
+            }
 
             showBottomBar.invoke(true)
             topAppBarType.invoke(TopAppBarType.MainAppBar("Categories"))
 
             CategoriesScreenRoot(
-                viewModel = viewModel
+                viewModel = viewModel,
+                onBookClick = {book->
+                    sharedViewModel.onSelectBook(book)
+                    navActions.navigateToNoteDetailsScreen()
+                }
             )
         }
-        composable(EBooksLibraryAppDestinations.AUTHORS_ROUTE) {
+
+        composable(AUTHORS_ROUTE) {backStackEntry ->
             val viewModel = koinViewModel<AuthorsViewModel>()
 
+            val sharedViewModel =
+                backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
+
+            LaunchedEffect(true) {
+                sharedViewModel.onSelectAuthor(null)
+            }
+
             showBottomBar.invoke(true)
-            topAppBarType.invoke(TopAppBarType.MainAppBar("Authors"))
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Authors"))
 
             AuthorsScreenRoot(
-                viewModel = viewModel
+                viewModel = viewModel,
+                onAuthorSelected = {author->
+                    sharedViewModel.onSelectAuthor(author)
+                    navActions.navigateToAuthorDetailsScreen()
+                }
             )
         }
-        composable(EBooksLibraryAppDestinations.PROFILE_ROUTE) {
+
+        composable(PROFILE_ROUTE) {
             val viewModel = koinViewModel<ProfileViewModel>()
 
             showBottomBar.invoke(true)
             topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Profile"))
 
-            ProfileScreenRoot(
-                viewModel = viewModel
+            ProfileScreenRoot(viewModel = viewModel)
+        }
+
+        composable(AUTHORS_DETAILS_ROUTE) {backStackEntry ->
+
+            val sharedViewModel = backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
+
+            val viewModel = koinViewModel<AuthorDetailsViewModel>()
+            val selectedAuthor by sharedViewModel.selectedAuthor.collectAsStateWithLifecycle()
+
+            LaunchedEffect(selectedAuthor) {
+                selectedAuthor?.let {
+                    viewModel.onSelectAuthor(selectedAuthor)
+                }
+            }
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Author Details"))
+
+            AuthorDetailsScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
             )
         }
     }

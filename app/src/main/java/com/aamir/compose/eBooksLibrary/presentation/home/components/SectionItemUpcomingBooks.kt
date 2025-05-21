@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
@@ -78,12 +80,11 @@ fun UpComingBooksLaunchPager(books:List<Book>,autoScroll:Boolean = true){
             modifier = Modifier
                 .fillMaxWidth()
                 .height(180.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp), // allow peek
+            contentPadding = PaddingValues(horizontal = 8.dp),
             pageSpacing = 8.dp,
             userScrollEnabled = false
         ) { page ->
 
-            // Get offset from center: 0f = center, negative = left, positive = right
             val pageOffset = (
                     (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
@@ -129,10 +130,11 @@ fun UpComingBooksLaunchCard(book: Book){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(170.dp),
+            .height(170.dp)
+            .shadow(elevation = 10.dp, RoundedCornerShape(20.dp)),
         shape = RoundedCornerShape(20.dp),
     ) {
-        Row(modifier = Modifier.fillMaxSize().background(Color.LightGray)) {
+        Row(modifier = Modifier.fillMaxSize().background(Gray)) {
             Column(modifier = Modifier.fillMaxHeight().fillMaxWidth(0.65f)) {
                 Text(
                     text = book.title,
@@ -165,7 +167,7 @@ fun UpComingBooksLaunchCard(book: Book){
                 )
             }
 
-            Column(modifier = Modifier.fillMaxHeight().fillMaxWidth().background(Color.Black)) {
+            Column(modifier = Modifier.fillMaxSize().background(Color.Black)) {
                 LoadRemoteImage(
                     url = book.imageUrl,
                     contentDescription = "Book Cover Picture",

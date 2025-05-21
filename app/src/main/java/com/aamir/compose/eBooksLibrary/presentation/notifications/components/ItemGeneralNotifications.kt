@@ -56,7 +56,7 @@ fun ItemGeneralNotifications(
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier,
-                color = Purple
+                color = Color.Black
             )
             Spacer(modifier = Modifier.padding(4.dp))
             Text(

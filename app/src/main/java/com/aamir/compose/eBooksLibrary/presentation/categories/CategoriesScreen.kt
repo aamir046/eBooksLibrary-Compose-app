@@ -23,12 +23,17 @@ import com.aamir.compose.eBooksLibrary.presentation.categories.components.ItemBo
 
 @Composable
 fun CategoriesScreenRoot(
-    viewModel: CategoriesViewModel
+    viewModel: CategoriesViewModel,
+    onBookClick: (Book) -> Unit = {},
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val onActions: (CategoriesScreenActions) -> Unit = { action ->
+        when (action) {
+            is CategoriesScreenActions.OnBookClick -> onBookClick(action.book)
+            else -> {}
+        }
         viewModel.onActions(action)
     }
 
@@ -50,7 +55,9 @@ fun CategoriesScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        LazyRow {
+        LazyRow(
+            modifier = Modifier.padding(horizontal = 8.dp)
+        ) {
             items(uiState.categories){
                 CategoriesTab(
                     modifier = Modifier,
@@ -70,7 +77,7 @@ fun CategoriesScreen(
             items(uiState.books.size) { book ->
                 ItemBooksListing(
                     book = uiState.books[book],
-                    onBookClick = { }
+                    onBookClick = { onActions(CategoriesScreenActions.OnBookClick(it))}
                 )
             }
         }

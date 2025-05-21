@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.presentation.categories.components
+package com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,10 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.aamir.compose.eBooksLibrary.presentation.theme.Purple
 
 @Composable
-fun CategoriesTab(
+fun AuthorsTab(
     modifier: Modifier = Modifier,
     name: String = "",
     onItemClick: (String) -> Unit = {},
@@ -48,8 +47,8 @@ fun CategoriesTab(
 
 @Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable
-fun CategoriesTabPreview() {
-    CategoriesTab(
+fun AuthorsTabPreview() {
+    AuthorsTab(
         modifier = Modifier,
         name = "All",
         isSelected = true,

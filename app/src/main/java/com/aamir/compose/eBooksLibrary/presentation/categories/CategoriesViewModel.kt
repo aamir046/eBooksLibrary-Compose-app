@@ -77,6 +77,7 @@ class CategoriesViewModel(
     fun onActions(actions: CategoriesScreenActions){
         when(actions){
             is CategoriesScreenActions.OnCategoryClick -> updateSelectedCategory(actions.selectedCategory)
+            else -> {}
         }
     }
 

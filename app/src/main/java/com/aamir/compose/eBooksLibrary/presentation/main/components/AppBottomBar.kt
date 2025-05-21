@@ -1,6 +1,5 @@
 package com.aamir.compose.eBooksLibrary.presentation.main.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -8,11 +7,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.aamir.compose.eBooksLibrary.presentation.main.BottomNavItem
@@ -31,10 +28,7 @@ fun AppBottomBar(navController: NavHostController?=null){
 
     val currentRoute = navController?.currentBackStackEntryAsState()?.value?.destination?.route
     var lastClickTime = 0L
-    NavigationBar(
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
-        containerColor = Gray,
-    ){
+    NavigationBar(containerColor = Gray){
         items.forEach { item ->
             NavigationBarItem(
                 modifier = Modifier,
