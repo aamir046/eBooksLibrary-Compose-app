@@ -77,6 +77,8 @@ dependencies {
     implementation(libs.koin.compose)
 //Coil
     implementation(libs.coil.compose)
+//Open Street Map
+    implementation(libs.osmdroid)
 
 
 }

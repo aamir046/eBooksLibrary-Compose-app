@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.ADDRESS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_DETAILS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
@@ -43,6 +44,8 @@ import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.Profile
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.ProfileViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressViewModel
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -200,6 +203,7 @@ fun AppNavGraph(
                 onProfileListingItemClick = { targetRoute->
                     when(targetRoute){
                         MY_ACCOUNT_ROUTE->navActions.navigateToMyAccountScreen()
+                        ADDRESS_ROUTE->navActions.navigateToAddressScreen()
                     }
 
                 }
@@ -248,6 +252,20 @@ fun AppNavGraph(
                 onBookSelected = {book->
                     sharedViewModel.onSelectBook(book)
                     navActions.navigateToBookDetailsScreen()
+                }
+            )
+        }
+
+        composable(ADDRESS_ROUTE) {
+            val viewModel = koinViewModel<AddressViewModel>()
+
+            showBottomBar.invoke(true)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Address"))
+
+            AddressScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }

@@ -12,6 +12,7 @@ import com.aamir.compose.eBooksLibrary.presentation.home.HomeViewModel
 import com.aamir.compose.eBooksLibrary.presentation.notifications.NotificationsViewModel
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.profiile.ProfileViewModel
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressViewModel
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -31,4 +32,5 @@ val appModule = module {
     viewModel { NotificationsViewModel() }
     viewModel { AuthorDetailsViewModel() }
     viewModel { MyAccountViewModel() }
+    viewModel { AddressViewModel() }
 }
