@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,13 +33,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.app.permissions.AppPermission
 import com.aamir.compose.eBooksLibrary.app.permissions.PermissionHandler
-import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.components.setupMap
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.components.MapViewWithLocation
 import kotlinx.coroutines.launch
-import org.osmdroid.views.MapView
 import java.util.Locale
 
 @Composable
@@ -97,9 +96,9 @@ fun AddressScreen(
             sheetState = bottomSheetState
         ) {
             AddressDetailsBottomSheet(
-                address = uiState.selectedAddress!!,
+                address = uiState.selectedAddress,
                 onConfirm = { tag ->
-                    actions.invoke(AddressAction.UpdateAddress(uiState.selectedAddress!!.copy(tag = tag)))
+                    actions.invoke(AddressAction.UpdateAddress(uiState.selectedAddress.copy(tag = tag)))
                     scope.launch { bottomSheetState.hide() }
                     showSheet = false
                 }
@@ -108,51 +107,42 @@ fun AddressScreen(
     }
 
     Column {
-        AndroidView(
-            factory = {
-                MapView(it).apply {
-                    setupMap(
-                        mapView = this,
-                        context = context,
-                        onGeoPointSelected = { geoPoint ->
-                            actions.invoke(AddressAction.LocationSelected(geoPoint))
-                            showSheet = true
-                        }
-                    )
-                }
-            },
+
+        MapViewWithLocation(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.5f)
-                .padding(16.dp)
+                .height(200.dp)
+                .padding(16.dp),
+            onLocationSelected = { geoPoint ->
+                actions(AddressAction.LocationSelected(geoPoint))
+                showSheet = true
+            }
         )
 
-//        Card(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .fillMaxHeight(),
-//            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-//        ) {
-//            Column(Modifier.padding(16.dp)) {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.SpaceBetween,
-//                    modifier = Modifier.fillMaxWidth()
-//                ) {
-//                    Text("Address Details", style = MaterialTheme.typography.titleMedium)
-//                    IconButton(onClick = {
-//                        actions.invoke(AddressAction.CenterOnUserLocation)
-//                    }) {
-//                        Icon(Icons.Default.MyLocation, contentDescription = "Current Location")
-//                    }
-//                }
-//
-//                uiState.selectedAddress?.let {
-//                    Text(it.title, fontWeight = FontWeight.Bold)
-//                    Text(it.fullAddress)
-//                } ?: Text("Tap on map to select an address.")
-//            }
-//        }
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Address Details", style = MaterialTheme.typography.titleMedium)
+                    IconButton(onClick = {
+                        actions.invoke(AddressAction.CenterOnUserLocation)
+                    }) {
+                        Icon(Icons.Default.MyLocation, contentDescription = "Current Location")
+                    }
+                }//
+                uiState.selectedAddress?.let {
+                    Text(it.title, fontWeight = FontWeight.Bold)
+                    Text(it.fullAddress)
+                } ?: Text("Tap on map to select an address.")
+            }
+        }
     }
 }
 
