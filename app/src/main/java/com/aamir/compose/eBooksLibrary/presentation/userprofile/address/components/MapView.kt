@@ -36,13 +36,14 @@ fun MapViewWithLocation(
     onMyLocationClick: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val mapViewRef = remember { mutableStateOf<MapView?>(null) }
+    val mapView = remember { MapView(context) }
+    val locationOverlayRef = remember { mutableStateOf<MyLocationNewOverlay?>(null) }
 
     Box(modifier = modifier) {
         AndroidView(
-            factory = { ctx ->
-                MapView(ctx).apply {
-                    setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)
+            factory = {
+                mapView.apply {
+                    setTileSource(TileSourceFactory.MAPNIK)
                     setMultiTouchControls(true)
                     controller.setZoom(15.0)
                     zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
@@ -50,14 +51,9 @@ fun MapViewWithLocation(
                     val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), this).apply {
                         enableMyLocation()
                         enableFollowLocation()
-                        runOnFirstFix {
-                            myLocation?.let {
-                                val geoPoint = GeoPoint(it.latitude, it.longitude)
-                                controller.setCenter(geoPoint)
-                            }
-                        }
                     }
                     overlays.add(locationOverlay)
+                    locationOverlayRef.value = locationOverlay
 
                     val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
                         override fun onLongPress(e: MotionEvent) {
@@ -68,15 +64,11 @@ fun MapViewWithLocation(
 
                     setOnTouchListener { view, event ->
                         val handled = gestureDetector.onTouchEvent(event)
-
                         if (event.action == MotionEvent.ACTION_UP && !handled) {
                             view.performClick()
                         }
-
                         handled
                     }
-
-                    mapViewRef.value = this
                 }
             },
             modifier = Modifier
@@ -86,15 +78,9 @@ fun MapViewWithLocation(
 
         IconButton(
             onClick = {
-                mapViewRef.value?.let { map ->
-                    map.overlays
-                        .filterIsInstance<MyLocationNewOverlay>()
-                        .firstOrNull()
-                        ?.myLocation
-                        ?.let {
-                            map.controller.animateTo(GeoPoint(it.latitude, it.longitude))
-                            onMyLocationClick?.invoke()
-                        }
+                locationOverlayRef.value?.myLocation?.let {
+                    mapView.controller.animateTo(GeoPoint(it.latitude, it.longitude))
+                    onMyLocationClick?.invoke()
                 }
             },
             modifier = Modifier
@@ -106,3 +92,4 @@ fun MapViewWithLocation(
         }
     }
 }
+

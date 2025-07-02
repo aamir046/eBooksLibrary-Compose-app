@@ -213,8 +213,8 @@ fun AppNavGraph(
         composable(MY_ACCOUNT_ROUTE) {
             val viewModel = koinViewModel<MyAccountViewModel>()
 
-            showBottomBar.invoke(true)
-            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("My Account"))
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("My Account"))
 
             MyAccountScreenRoot(
                 viewModel = viewModel,
@@ -259,8 +259,8 @@ fun AppNavGraph(
         composable(ADDRESS_ROUTE) {
             val viewModel = koinViewModel<AddressViewModel>()
 
-            showBottomBar.invoke(true)
-            topAppBarType.invoke(TopAppBarType.SecondaryAppBarNoBack("Address"))
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Address"))
 
             AddressScreenRoot(
                 viewModel = viewModel,

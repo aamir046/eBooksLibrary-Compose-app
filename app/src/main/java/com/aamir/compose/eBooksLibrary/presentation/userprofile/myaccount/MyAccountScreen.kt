@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.R
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
-import com.aamir.compose.eBooksLibrary.presentation.authors.authordetails.components.FormEntry
+import com.aamir.compose.eBooksLibrary.core.presentation.FormEntry
 import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 
 @Composable
@@ -42,6 +42,7 @@ fun MyAccountScreenRoot(
     val actions: (MyAccountScreenActions) -> Unit = { action ->
         when (action) {
             is MyAccountScreenActions.OnBackClick -> onBackClick()
+            else -> viewModel.onAction(action)
         }
     }
 
@@ -54,12 +55,12 @@ fun MyAccountScreenRoot(
 
 @Composable
 fun MyAccountScreen(
-    uiState: MyAccountScreenState = MyAccountScreenState(),
     modifier: Modifier = Modifier,
+    uiState: MyAccountScreenState = MyAccountScreenState(),
     actions: (MyAccountScreenActions) -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Gray)
     ) {
@@ -73,24 +74,31 @@ fun MyAccountScreen(
         ){
             Spacer(modifier = Modifier.fillMaxHeight(0.14f))
             FormEntry(
+                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
                 title = "Name",
                 label = "Enter name",
                 value = uiState.userInfo?.name ?: "",
                 onValueChange = {
-
+                    actions.invoke(MyAccountScreenActions.OnNameChange(it))
                 }
             )
             FormEntry(
+                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
                 title = "Email",
                 label = "Enter email",
                 value = uiState.userInfo?.email ?: "",
-                onValueChange = {}
+                onValueChange = {
+                    actions.invoke(MyAccountScreenActions.OnEmailChange(it))
+                }
             )
             FormEntry(
+                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
                 title = "Phone Number",
                 label = "Enter Phone Number",
                 value = uiState.userInfo?.phoneNumber ?: "",
-                onValueChange = {}
+                onValueChange = {
+                    actions.invoke(MyAccountScreenActions.OnPhoneNumberChange(it))
+                }
             )
 
             Button(
