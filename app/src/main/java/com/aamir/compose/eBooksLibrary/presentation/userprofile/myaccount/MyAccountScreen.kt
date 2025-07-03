@@ -137,7 +137,7 @@ fun MyAccountScreen(
     }
 }
 
-@Preview(apiLevel = 34, showBackground = true, name = "Empty View", device = Devices.PIXEL)
+@Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable
 fun MyAccountScreenPreview() {
     MyAccountScreen(

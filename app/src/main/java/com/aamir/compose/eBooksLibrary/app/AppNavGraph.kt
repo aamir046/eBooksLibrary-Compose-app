@@ -21,10 +21,13 @@ import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.AUTHORS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.BOOK_DETAILS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.CATEGORIES_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.FAVOURITES_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HELP_CENTER_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.HOME_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.MY_ACCOUNT_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.NOTIFICATIONS_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.PROFILE_ROUTE
+import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.PROMOS_OFFER_ROUTE
 import com.aamir.compose.eBooksLibrary.app.EBooksLibraryAppDestinations.SEARCH_ROUTE
 import com.aamir.compose.eBooksLibrary.core.presentation.SharedViewModel
 import com.aamir.compose.eBooksLibrary.presentation.authors.authordetails.AuthorDetailsScreenRoot
@@ -46,8 +49,14 @@ import com.aamir.compose.eBooksLibrary.presentation.search.SearchScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.search.SearchViewModel
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites.FavouritesScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites.FavouritesViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.helpcenter.HelpCenterScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.helpcenter.HelpCenterViewModel
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountScreenRoot
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountViewModel
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.offersndpromos.OffersAndPromosScreenRoot
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.offersndpromos.OffersAndPromosViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -204,6 +213,9 @@ fun AppNavGraph(
                     when(targetRoute){
                         MY_ACCOUNT_ROUTE->navActions.navigateToMyAccountScreen()
                         ADDRESS_ROUTE->navActions.navigateToAddressScreen()
+                        PROMOS_OFFER_ROUTE->navActions.navigateToPromosOfferScreen()
+                        HELP_CENTER_ROUTE->navActions.navigateToHelpCenterScreen()
+                        FAVOURITES_ROUTE->navActions.navigateToFavoritesScreen()
                     }
 
                 }
@@ -263,6 +275,48 @@ fun AppNavGraph(
             topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Address"))
 
             AddressScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(PROMOS_OFFER_ROUTE) {
+            val viewModel = koinViewModel<OffersAndPromosViewModel>()
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Offers & Promos"))
+
+            OffersAndPromosScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(FAVOURITES_ROUTE) {
+            val viewModel = koinViewModel<FavouritesViewModel>()
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Favourites"))
+
+            FavouritesScreenRoot(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(HELP_CENTER_ROUTE) {
+            val viewModel = koinViewModel<HelpCenterViewModel>()
+
+            showBottomBar.invoke(false)
+            topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Help Center"))
+
+            HelpCenterScreenRoot(
                 viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()
