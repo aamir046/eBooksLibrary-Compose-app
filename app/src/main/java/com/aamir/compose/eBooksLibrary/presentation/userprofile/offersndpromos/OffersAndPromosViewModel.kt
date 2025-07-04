@@ -2,7 +2,7 @@ package com.aamir.compose.eBooksLibrary.presentation.userprofile.offersndpromos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aamir.compose.eBooksLibrary.core.presentation.UserInfo
+import com.aamir.compose.eBooksLibrary.domain.UserInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart

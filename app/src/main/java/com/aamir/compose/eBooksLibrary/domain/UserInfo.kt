@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.core.presentation
+package com.aamir.compose.eBooksLibrary.domain
 
 data class UserInfo(
     var name:String,

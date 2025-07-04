@@ -23,8 +23,8 @@ import com.aamir.compose.eBooksLibrary.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondaryAppBar(
-    title:String = "No Title",
     modifier: Modifier = Modifier,
+    title:String = "No Title",
     onBackClick: () -> Unit = {},
     isShowBackIcon:Boolean = true
 ){

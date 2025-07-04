@@ -45,16 +45,16 @@ fun AuthorDetailsScreenRoot(
     }
 
     AuthorDetailsScreen(
-        uiState = uiState,
         modifier = Modifier,
+        uiState = uiState,
         actions = actions
     )
 }
 
 @Composable
 fun AuthorDetailsScreen(
-    uiState: AuthorDetailsScreenState = AuthorDetailsScreenState(),
     modifier: Modifier = Modifier,
+    uiState: AuthorDetailsScreenState = AuthorDetailsScreenState(),
     actions: (AuthorDetailsScreenActions) -> Unit
 ) {
     Box(
