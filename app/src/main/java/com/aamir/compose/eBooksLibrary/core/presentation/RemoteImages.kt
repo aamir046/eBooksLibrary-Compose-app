@@ -13,9 +13,9 @@ import com.aamir.compose.eBooksLibrary.R
 
 @Composable
 fun LoadRemoteImage(
+    modifier: Modifier = Modifier,
     url: String,
     contentDescription: String? = null,
-    modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.None,
     placeholderRes: Int = R.drawable.cover_image,
     errorRes: Int = R.drawable.cover_image,

@@ -14,7 +14,7 @@ class OffersAndPromosViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(OffersAndPromosScreenState())
 
     val uiState = _uiState.onStart {
-        loadUserOffersAndPromos()
+
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000L),
@@ -24,20 +24,6 @@ class OffersAndPromosViewModel : ViewModel() {
     fun onAction(actions: OffersAndPromosScreenActions) {
         when (actions) {
             else -> {}
-        }
-    }
-
-    private fun loadUserOffersAndPromos() {
-        _uiState.update {
-            it.copy(
-                userInfo = UserInfo(
-                    name = "",
-                    email = "",
-                    phoneNumber = "",
-                    imageUrl = "",
-                    address = ""
-                )
-            )
         }
     }
 
