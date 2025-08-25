@@ -296,8 +296,14 @@ fun AppNavGraph(
             )
         }
 
-        composable(FAVOURITES_ROUTE) {
+        composable(FAVOURITES_ROUTE) { backStackEntry->
             val viewModel = koinViewModel<FavouritesViewModel>()
+            val sharedViewModel =
+                backStackEntry.sharedKoinViewModel<SharedViewModel>(navController)
+
+            LaunchedEffect(true) {
+                sharedViewModel.onSelectBook(null)
+            }
 
             showBottomBar.invoke(false)
             topAppBarType.invoke(TopAppBarType.SecondaryAppBar("Favourites"))
@@ -306,6 +312,10 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 onBackClick = {
                     navController.popBackStack()
+                },
+                onBookClick = { book ->
+                    sharedViewModel.onSelectBook(book)
+                    navActions.navigateToBookDetailsScreen()
                 }
             )
         }

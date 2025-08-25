@@ -1,5 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,10 @@ class FavouritesViewModel : ViewModel() {
 
     fun onAction(actions: FavouritesScreenActions) {
         when (actions) {
+            is FavouritesScreenActions.OnFavouritesIconClick -> {
+                // Handle favourites icon click
+                Log.d("FAVOURITE_ICON_CLICK", "onAction Favourite Icon Clicked")
+            }
             else -> {}
         }
     }
