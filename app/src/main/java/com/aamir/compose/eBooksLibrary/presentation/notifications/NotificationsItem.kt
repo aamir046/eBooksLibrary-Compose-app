@@ -1,7 +1,7 @@
 package com.aamir.compose.eBooksLibrary.presentation.notifications
 
-import com.aamir.compose.eBooksLibrary.domain.BookInfoNotification
-import com.aamir.compose.eBooksLibrary.domain.GeneralNotification
+import com.aamir.compose.eBooksLibrary.domain.model.BookInfoNotification
+import com.aamir.compose.eBooksLibrary.domain.model.GeneralNotification
 
 sealed interface NotificationsItem {
     data class CurrentNotifications(val currentNotifications: List<Notifications>) : NotificationsItem

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 @Composable
 fun SearchResultList(

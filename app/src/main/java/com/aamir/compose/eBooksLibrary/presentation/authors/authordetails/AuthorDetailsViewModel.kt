@@ -2,8 +2,8 @@ package com.aamir.compose.eBooksLibrary.presentation.authors.authordetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aamir.compose.eBooksLibrary.domain.Author
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -52,7 +52,7 @@ class AuthorDetailsViewModel:ViewModel(){
         }
     }
 
-    fun onSelectAuthor(selectedAuthor:Author?) {
+    fun onSelectAuthor(selectedAuthor: Author?) {
         selectedAuthor?.let {author->
             _uiState.update {
                 it.copy(

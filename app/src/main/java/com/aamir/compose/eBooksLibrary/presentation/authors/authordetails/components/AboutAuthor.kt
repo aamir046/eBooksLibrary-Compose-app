@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.R
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
-import com.aamir.compose.eBooksLibrary.domain.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Author
 import com.aamir.compose.eBooksLibrary.presentation.bookdetails.components.RatingBar
 
 @Composable

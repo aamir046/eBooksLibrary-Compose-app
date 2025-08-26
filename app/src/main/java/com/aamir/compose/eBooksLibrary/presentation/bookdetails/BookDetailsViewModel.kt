@@ -2,7 +2,7 @@ package com.aamir.compose.eBooksLibrary.presentation.bookdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +21,7 @@ class BookDetailsViewModel:ViewModel(){
         _uiState.value
     )
 
-    fun onSelectBook(selectedBook:Book?) {
+    fun onSelectBook(selectedBook: Book?) {
         selectedBook?.let {book->
             _uiState.update {
                 it.copy(

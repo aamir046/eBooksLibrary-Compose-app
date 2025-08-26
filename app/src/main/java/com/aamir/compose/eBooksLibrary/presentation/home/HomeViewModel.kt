@@ -3,7 +3,7 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aamir.compose.eBooksLibrary.data.repository.HomeRepository
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

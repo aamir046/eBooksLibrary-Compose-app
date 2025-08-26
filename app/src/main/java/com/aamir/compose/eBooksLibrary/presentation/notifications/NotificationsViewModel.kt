@@ -2,9 +2,9 @@ package com.aamir.compose.eBooksLibrary.presentation.notifications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aamir.compose.eBooksLibrary.domain.Book
-import com.aamir.compose.eBooksLibrary.domain.BookInfoNotification
-import com.aamir.compose.eBooksLibrary.domain.GeneralNotification
+import com.aamir.compose.eBooksLibrary.domain.model.Book
+import com.aamir.compose.eBooksLibrary.domain.model.BookInfoNotification
+import com.aamir.compose.eBooksLibrary.domain.model.GeneralNotification
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart

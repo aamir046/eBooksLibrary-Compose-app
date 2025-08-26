@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.domain.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Author
 import com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting.components.AuthorCard
 import com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting.components.AuthorsTab
 

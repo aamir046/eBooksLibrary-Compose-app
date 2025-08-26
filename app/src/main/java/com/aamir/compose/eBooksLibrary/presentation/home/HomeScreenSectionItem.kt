@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.home
 
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 sealed interface HomeScreenSectionItem {
     data class UpComingBooks(val upComingBooks: List<Book>) : HomeScreenSectionItem

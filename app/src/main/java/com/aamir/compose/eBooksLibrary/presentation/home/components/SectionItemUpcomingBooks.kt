@@ -38,18 +38,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
 @Composable
-fun SectionItemUpcomingBooks(books:List<Book>,autoScroll:Boolean = true){
+fun SectionItemUpcomingBooks(books:List<Book>, autoScroll:Boolean = true){
     UpComingBooksLaunchPager(books = books,autoScroll = autoScroll )
 }
 
 @Composable
-fun UpComingBooksLaunchPager(books:List<Book>,autoScroll:Boolean = true){
+fun UpComingBooksLaunchPager(books:List<Book>, autoScroll:Boolean = true){
 
     if (books.isEmpty()) return
 

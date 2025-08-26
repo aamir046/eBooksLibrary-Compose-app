@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.search
 
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 sealed interface SearchScreenActions {
     data object OnBackClick : SearchScreenActions

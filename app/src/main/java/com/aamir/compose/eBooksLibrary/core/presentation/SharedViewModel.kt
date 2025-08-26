@@ -1,8 +1,8 @@
 package com.aamir.compose.eBooksLibrary.core.presentation
 
 import androidx.lifecycle.ViewModel
-import com.aamir.compose.eBooksLibrary.domain.Author
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

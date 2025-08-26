@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites
 
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 sealed interface FavouritesScreenActions {
     data object OnBackClick : FavouritesScreenActions

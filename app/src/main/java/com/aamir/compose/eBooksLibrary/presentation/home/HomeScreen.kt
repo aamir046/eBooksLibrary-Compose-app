@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 import com.aamir.compose.eBooksLibrary.presentation.home.components.HorizontalBooksListing
 import com.aamir.compose.eBooksLibrary.presentation.home.components.SectionItemUpcomingBooks
 

@@ -1,7 +1,7 @@
 package com.aamir.compose.eBooksLibrary.presentation.authors.authordetails
 
-import com.aamir.compose.eBooksLibrary.domain.Author
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 data class AuthorDetailsScreenState(
     val author: Author?=null,

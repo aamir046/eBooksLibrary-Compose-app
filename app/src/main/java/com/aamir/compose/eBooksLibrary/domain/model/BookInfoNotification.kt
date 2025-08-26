@@ -1,4 +1,4 @@
-package com.aamir.compose.eBooksLibrary.domain
+package com.aamir.compose.eBooksLibrary.domain.model
 
 data class BookInfoNotification(
     val id: String="",

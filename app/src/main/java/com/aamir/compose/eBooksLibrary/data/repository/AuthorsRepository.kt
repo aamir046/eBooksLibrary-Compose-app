@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.data.repository
 
-import com.aamir.compose.eBooksLibrary.domain.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Author
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.authors.authorslisting
 
-import com.aamir.compose.eBooksLibrary.domain.Author
+import com.aamir.compose.eBooksLibrary.domain.model.Author
 
 data class AuthorsScreenState(
     val authorsCategoriesList: List<String> = emptyList(),

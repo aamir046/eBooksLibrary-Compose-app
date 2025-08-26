@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 import com.aamir.compose.eBooksLibrary.presentation.search.components.RecentSearches
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchBar
 import com.aamir.compose.eBooksLibrary.presentation.search.components.SearchResultList

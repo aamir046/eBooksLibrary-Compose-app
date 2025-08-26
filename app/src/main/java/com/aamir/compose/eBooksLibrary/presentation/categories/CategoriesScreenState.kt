@@ -1,6 +1,6 @@
 package com.aamir.compose.eBooksLibrary.presentation.categories
 
-import com.aamir.compose.eBooksLibrary.domain.Book
+import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 data class CategoriesScreenState(
     val categories: List<String> = emptyList(),
