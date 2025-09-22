@@ -1,7 +1,7 @@
 package com.aamir.compose.eBooksLibrary.domain.model
 
 data class Book(
-    val id: String,
+    val id: Int = -1,
     val author: String,
     val title: String,
     val year: String,

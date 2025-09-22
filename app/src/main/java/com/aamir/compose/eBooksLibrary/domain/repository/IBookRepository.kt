@@ -1,10 +1,11 @@
 package com.aamir.compose.eBooksLibrary.domain.repository
 
 import com.aamir.compose.eBooksLibrary.domain.model.Book
+import kotlinx.coroutines.flow.Flow
 
 interface IBookRepository {
-    suspend fun getBooks(): List<Book>
-    suspend fun getBook(id: String): Book?
-    suspend fun toggleFavourite(bookId: String)
-    suspend fun getFavouriteBooks(): List<Book>
+    suspend fun getBooks(): Result<List<Book>>
+    suspend fun getBook(id: Int): Flow<Book?>
+    suspend fun toggleFavourite(bookId: Int)
+    suspend fun getFavouriteBooks(): Flow<List<Book>>
 }

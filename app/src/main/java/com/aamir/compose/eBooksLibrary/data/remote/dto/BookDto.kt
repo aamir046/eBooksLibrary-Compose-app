@@ -1,8 +1,7 @@
-// data/remote/dto/BookDto.kt
 package com.aamir.compose.eBooksLibrary.data.remote.dto
 
 data class BookDto(
-    val id: String,
+    val id: Int,
     val author: String,
     val title: String,
     val year: String,
