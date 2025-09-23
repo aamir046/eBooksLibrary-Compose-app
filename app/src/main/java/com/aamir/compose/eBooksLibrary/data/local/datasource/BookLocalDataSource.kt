@@ -5,7 +5,8 @@ import com.aamir.compose.eBooksLibrary.data.local.entity.BookEntity
 
 class BookLocalDataSource(private val dao: BookDao) {
     suspend fun getBook(id: Int) = dao.getBook(id)
-    suspend fun insertBook(book: BookEntity) = dao.insertBook(book)
+    suspend fun insertFavoriteBook(book: BookEntity) = dao.insertFavoriteBook(book)
     suspend fun toggleFavourite(id: Int) = dao.toggleFavourite(id)
     suspend fun getFavouriteBooks() = dao.getFavouriteBooks()
+    suspend fun isFavouriteBook(id: Int) = dao.isFavorite(id)
 }

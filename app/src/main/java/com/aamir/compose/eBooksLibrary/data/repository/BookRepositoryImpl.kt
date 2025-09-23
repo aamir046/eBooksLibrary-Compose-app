@@ -1,6 +1,7 @@
 package com.aamir.compose.eBooksLibrary.data.repository
 
 import com.aamir.compose.eBooksLibrary.data.local.datasource.BookLocalDataSource
+import com.aamir.compose.eBooksLibrary.data.local.entity.BookEntity
 import com.aamir.compose.eBooksLibrary.data.mapper.toDomain
 import com.aamir.compose.eBooksLibrary.data.mapper.toEntity
 import com.aamir.compose.eBooksLibrary.data.remote.datasource.BookRemoteDataSource
@@ -23,6 +24,10 @@ class BookRepositoryImpl(
         }
     }
 
+    override suspend fun insertFavoriteBook(book: Book) {
+        local.insertFavoriteBook(book.toEntity())
+    }
+ 
     override suspend fun getBook(id: Int):  Flow<Book?> =
         local.getBook(id).map { it?.toDomain() }
 
@@ -31,4 +36,8 @@ class BookRepositoryImpl(
 
     override suspend fun getFavouriteBooks(): Flow<List<Book>> =
         local.getFavouriteBooks().map { it.map { entity -> entity.toDomain() } }
+
+    override suspend fun isFavouriteBook(id: Int): Flow<Boolean> =
+        local.isFavouriteBook(id)
+
 }

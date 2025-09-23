@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface BookDao {
 
     @Query("SELECT * FROM books WHERE id = :id LIMIT 1")
-    suspend fun getBook(id: Int):Flow<BookEntity?>
+    fun getBook(id: Int):Flow<BookEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBook(book: BookEntity)
+    suspend fun insertFavoriteBook(book: BookEntity)
 
     @Update
     suspend fun updateBook(book: BookEntity)
@@ -20,5 +20,8 @@ interface BookDao {
     suspend fun toggleFavourite(id: Int)
 
     @Query("SELECT * FROM books WHERE isFavourite = 1")
-    suspend fun getFavouriteBooks(): Flow<List<BookEntity>>
+    fun getFavouriteBooks(): Flow<List<BookEntity>>
+
+    @Query("SELECT isFavourite FROM books WHERE id = :bookId LIMIT 1")
+    fun isFavorite(bookId: Int): Flow<Boolean>
 }

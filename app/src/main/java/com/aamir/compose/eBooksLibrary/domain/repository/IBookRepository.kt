@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IBookRepository {
     suspend fun getBooks(): Result<List<Book>>
+    suspend fun insertFavoriteBook(book: Book)
     suspend fun getBook(id: Int): Flow<Book?>
     suspend fun toggleFavourite(bookId: Int)
     suspend fun getFavouriteBooks(): Flow<List<Book>>
+    suspend fun isFavouriteBook(id: Int):Flow<Boolean>
 }

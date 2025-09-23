@@ -3,24 +3,29 @@ package com.aamir.compose.eBooksLibrary.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aamir.compose.eBooksLibrary.data.repository.HomeRepository
+import com.aamir.compose.eBooksLibrary.domain.interactor.book.GetBooksUseCase
 import com.aamir.compose.eBooksLibrary.domain.model.Book
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class HomeViewModel(private val bookRepository: HomeRepository) : ViewModel() {
+class HomeViewModel(
+    private val getBooksUseCase: GetBooksUseCase
+) : ViewModel() {
 
     private var bookFetchJob: Job? = null
 
     private val _uiState = MutableStateFlow<HomeScreenState>(HomeScreenState())
 
     val uiState = _uiState.onStart {
-        fetchBooks()
+        getBooks()
         setTitleForHomeScreenSections()
     }.stateIn(
         viewModelScope,
@@ -39,22 +44,23 @@ class HomeViewModel(private val bookRepository: HomeRepository) : ViewModel() {
         }
     }
 
-    private fun fetchBooks() {
+    private fun getBooks() {
         bookFetchJob?.cancel()
-        bookFetchJob = bookRepository
-            .fetchBooks()
-            .onEach { booksList ->
+        bookFetchJob = viewModelScope.launch {
+            val result = getBooksUseCase.invoke()
+            result.onSuccess { books ->
                 _uiState.update {
                     it.copy(
-                        screenSectionItems = createHomeSectionsItemList(booksList)
+                        screenSectionItems = createHomeSectionsItemList(books)
                     )
                 }
+            }.onFailure {
+                // handle error
             }
-            .launchIn(viewModelScope)
+        }
     }
 
     private fun createHomeSectionsItemList(books:List<Book>):List<HomeScreenSectionItem>{
-
         return listOf(
             HomeScreenSectionItem.UpComingBooks(books.filter { it.type == BookListingType.UPCOMING.type }),
             HomeScreenSectionItem.RecommendedBooks(books.filter { it.type == BookListingType.RECOMMENDED.type }),

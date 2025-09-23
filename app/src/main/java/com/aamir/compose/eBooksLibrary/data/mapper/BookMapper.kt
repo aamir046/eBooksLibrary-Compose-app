@@ -7,3 +7,4 @@ import com.aamir.compose.eBooksLibrary.domain.model.Book
 fun BookDto.toEntity() = BookEntity(id, author, title, year, description, imageUrl, type)
 fun BookEntity.toDomain() = Book(id, author, title, year, description, imageUrl, type, isFavourite)
 fun BookDto.toDomain() = Book(id, author, title, year, description, imageUrl, type)
+fun Book.toEntity() = BookEntity(id, author, title, year, description, imageUrl, type, isFavourite)
