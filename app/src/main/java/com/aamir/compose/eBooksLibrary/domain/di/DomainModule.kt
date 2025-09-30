@@ -1,5 +1,6 @@
 package com.aamir.compose.eBooksLibrary.domain.di
 
+import com.aamir.compose.eBooksLibrary.domain.interactor.book.DeleteFavouriteBookUseCase
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.FavoriteUseCases
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.GetBooksUseCase
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.GetFavoriteBooksUseCase
@@ -14,12 +15,15 @@ val domainModule = module {
     factory { GetFavoriteBooksUseCase(get()) }
     factory { ToggleFavoriteUseCase(get()) }
     factory { IsFavoriteBookUseCase(get()) }
+    factory { DeleteFavouriteBookUseCase(get()) }
 
     factory {
         FavoriteUseCases(
             getFavoriteBooksUseCase = get(),
             insertFavouriteBookUseCase = get(),
-            toggleFavoriteUseCase = get()
+            deleteFavouriteBookUseCase = get(),
+            toggleFavoriteUseCase = get(),
+            isFavoriteBookUseCase = get()
         )
     }
 }

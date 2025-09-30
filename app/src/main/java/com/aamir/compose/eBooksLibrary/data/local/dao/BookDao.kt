@@ -13,6 +13,9 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavoriteBook(book: BookEntity)
 
+    @Delete
+    suspend fun deleteFavoriteBook(book: BookEntity)
+
     @Update
     suspend fun updateBook(book: BookEntity)
 
@@ -23,5 +26,5 @@ interface BookDao {
     fun getFavouriteBooks(): Flow<List<BookEntity>>
 
     @Query("SELECT isFavourite FROM books WHERE id = :bookId LIMIT 1")
-    fun isFavorite(bookId: Int): Flow<Boolean>
+    suspend fun isFavorite(bookId: Int): Boolean
 }

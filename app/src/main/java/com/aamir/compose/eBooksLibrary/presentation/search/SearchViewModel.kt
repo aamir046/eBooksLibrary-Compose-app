@@ -55,7 +55,7 @@ class SearchViewModel(
         }
     }
 
-    fun onSearchQuery(searchQuery:String){
+    private fun onSearchQuery(searchQuery:String){
         _uiState.update {
             it.copy(
                 searchQuery = searchQuery

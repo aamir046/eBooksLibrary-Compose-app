@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aamir.compose.eBooksLibrary.data.repository.HomeRepository
 import com.aamir.compose.eBooksLibrary.data.repository.SearchRepository
+import com.aamir.compose.eBooksLibrary.domain.interactor.book.GetBooksUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,15 +21,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(
-    private val repository: HomeRepository
+    private val getBooksUseCase: GetBooksUseCase
 ) : ViewModel() {
 
-    private var bookFetchJob: Job? = null
+    private var getBooksJob: Job? = null
 
     private val _uiState = MutableStateFlow(CategoriesScreenState())
     val uiState: StateFlow<CategoriesScreenState> = _uiState.onStart {
         createCategoriesList()
-        fetchBooks()
+        getBooks()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000L),
@@ -52,18 +53,19 @@ class CategoriesViewModel(
         }
     }
 
-    private fun fetchBooks() {
-        bookFetchJob?.cancel()
-        bookFetchJob = repository
-            .fetchBooks()
-            .onEach { booksList ->
+    private fun getBooks() {
+        getBooksJob?.cancel()
+        getBooksJob = viewModelScope.launch {
+            getBooksUseCase().onSuccess { books ->
                 _uiState.update {
                     it.copy(
-                        books = booksList
+                        books = books
                     )
                 }
+            }.onFailure {
+                //handle error
             }
-            .launchIn(viewModelScope)
+        }
     }
 
     private fun updateSelectedCategory(category: String) {

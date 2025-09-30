@@ -20,18 +20,11 @@ class HomeViewModel(
     private val getBooksUseCase: GetBooksUseCase
 ) : ViewModel() {
 
-    private var bookFetchJob: Job? = null
+    private var getBooksJob: Job? = null
 
     private val _uiState = MutableStateFlow<HomeScreenState>(HomeScreenState())
 
-    val uiState = _uiState.onStart {
-        getBooks()
-        setTitleForHomeScreenSections()
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        _uiState.value
-    )
+
 
     private fun setTitleForHomeScreenSections() {
         _uiState.update {
@@ -45,8 +38,8 @@ class HomeViewModel(
     }
 
     private fun getBooks() {
-        bookFetchJob?.cancel()
-        bookFetchJob = viewModelScope.launch {
+        getBooksJob?.cancel()
+        getBooksJob = viewModelScope.launch {
             val result = getBooksUseCase.invoke()
             result.onSuccess { books ->
                 _uiState.update {

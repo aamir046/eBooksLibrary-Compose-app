@@ -46,6 +46,9 @@ fun BookDetailsScreenRoot(
     val actions: (BookDetailsScreenActions) -> Unit = { action ->
         when (action) {
             is BookDetailsScreenActions.OnBackClick -> onBackClick()
+            else ->{
+                viewModel.onActions(action)
+            }
         }
     }
 
@@ -58,8 +61,8 @@ fun BookDetailsScreenRoot(
 
 @Composable
 fun BookDetailsScreen(
-    uiState: BookDetailsScreenState = BookDetailsScreenState(),
     modifier: Modifier = Modifier,
+    uiState: BookDetailsScreenState = BookDetailsScreenState(),
     actions: (BookDetailsScreenActions) -> Unit
 ) {
     Box(
@@ -104,10 +107,13 @@ fun BookDetailsScreen(
                         .padding(horizontal = 8.dp)
                         .height(34.dp)
                         .width(34.dp),
-                    onClick = { }
+                    onClick = { actions.invoke(BookDetailsScreenActions.OnToggleFavorite(book = uiState.book!!)) }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_fav_unchecked),
+                        painter = if(uiState.isFavourite)
+                            painterResource(id = R.drawable.ic_fav_checked)
+                        else
+                            painterResource(id = R.drawable.ic_fav_unchecked) ,
                         contentDescription = "Search",
                         tint = Color.Unspecified
                     )

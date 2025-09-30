@@ -29,9 +29,9 @@ val appModule = module {
     viewModelOf(::SearchViewModel)
     viewModelOf(::CategoriesViewModel)
     viewModelOf(::AuthorsViewModel)
+    viewModelOf(::BookDetailsViewModel)
     viewModel { ProfileViewModel() }
     viewModel { SharedViewModel() }
-    viewModel { BookDetailsViewModel() }
     viewModel { NotificationsViewModel() }
     viewModel { AuthorDetailsViewModel() }
     viewModel { MyAccountViewModel() }
