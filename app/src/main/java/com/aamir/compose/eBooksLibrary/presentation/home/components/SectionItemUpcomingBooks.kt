@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.domain.model.Book
@@ -136,13 +137,16 @@ fun UpComingBooksLaunchCard(book: Book){
     ) {
         Row(modifier = Modifier.fillMaxSize().background(Gray)) {
             Column(modifier = Modifier.fillMaxHeight().fillMaxWidth(0.65f)) {
-                Text(
+
+                AutoResizeAbleText(
+                    modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 20.dp).fillMaxWidth(),
                     text = book.title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 20.dp).fillMaxWidth()
+                    minTextSize = 18.sp,
+                    maxTextSize = 20.sp
                 )
 
                 Text(
