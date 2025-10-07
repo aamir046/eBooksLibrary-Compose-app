@@ -1,32 +1,61 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aamir.compose.eBooksLibrary.domain.interactor.book.FavoriteUseCases
+import com.aamir.compose.eBooksLibrary.domain.model.Book
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class FavouritesViewModel : ViewModel() {
+class FavouritesViewModel(
+    private val favoriteUseCases: FavoriteUseCases
+) : ViewModel() {
+
+    private var removeFavouritesJob: Job? = null
+    private var getFavouritesJob: Job? = null
 
     private val _uiState = MutableStateFlow(FavouritesScreenState())
+    val uiState = _uiState.asStateFlow()
 
-    val uiState = _uiState.onStart {
-
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        _uiState.value
-    )
+    init {
+        getFavouriteBooks()
+    }
 
     fun onAction(actions: FavouritesScreenActions) {
         when (actions) {
             is FavouritesScreenActions.OnFavouritesIconClick -> {
-                // Handle favourites icon click
-                Log.d("FAVOURITE_ICON_CLICK", "onAction Favourite Icon Clicked")
+                removeFromFavourites(actions.book)
             }
+
             else -> {}
+        }
+    }
+
+    private fun getFavouriteBooks() {
+        getFavouritesJob?.cancel()
+        getFavouritesJob = viewModelScope.launch {
+            favoriteUseCases.getFavoriteBooksUseCase()
+                .flowOn(Dispatchers.IO)
+                .collect { books ->
+                    _uiState.update {
+                        it.copy(favouriteBooks = books)
+                    }
+                }
+        }
+    }
+
+    private fun removeFromFavourites(book: Book) {
+        removeFavouritesJob?.cancel()
+        removeFavouritesJob = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                favoriteUseCases.deleteFavouriteBookUseCase(book)
+            }
         }
     }
 

@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.update
 class HelpCenterViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(HelpCenterScreenState())
-
     val uiState = _uiState.onStart {
 
     }.stateIn(
@@ -27,18 +26,20 @@ class HelpCenterViewModel : ViewModel() {
                     userFeedback = it.userFeedback.copy(description = actions.description)
                 )
             }
+
             is HelpCenterScreenActions.OnEmailChange -> _uiState.update {
                 it.copy(
                     userFeedback = it.userFeedback.copy(email = actions.email)
                 )
             }
+
             is HelpCenterScreenActions.OnSubjectChange -> _uiState.update {
                 it.copy(
                     userFeedback = it.userFeedback.copy(subject = actions.subject)
                 )
             }
+
             else -> {}
         }
     }
-
 }

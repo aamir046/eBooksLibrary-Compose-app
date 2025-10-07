@@ -82,7 +82,7 @@ fun UpComingBooksLaunchPager(books:List<Book>, autoScroll:Boolean = true){
                 .height(180.dp),
             contentPadding = PaddingValues(horizontal = 8.dp),
             pageSpacing = 8.dp,
-            userScrollEnabled = false
+            userScrollEnabled = true
         ) { page ->
 
             val pageOffset = (

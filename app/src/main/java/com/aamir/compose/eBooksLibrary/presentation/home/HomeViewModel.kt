@@ -24,6 +24,14 @@ class HomeViewModel(
 
     private val _uiState = MutableStateFlow<HomeScreenState>(HomeScreenState())
 
+    val uiState = _uiState.onStart {
+        setTitleForHomeScreenSections()
+        getBooks()
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        _uiState.value
+    )
 
 
     private fun setTitleForHomeScreenSections() {
