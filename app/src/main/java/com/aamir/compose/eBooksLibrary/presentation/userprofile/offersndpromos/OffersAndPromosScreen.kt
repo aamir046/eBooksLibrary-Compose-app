@@ -41,10 +41,11 @@ fun OffersAndPromosScreen(
     // This screen currently only displays an empty list message.
     EmptyListComposable(
         modifier = modifier,
-        imagePainter = painterResource(id = R.drawable.ic_no_offers_promos),
-        message = uiState.messageEmptyList
+        painterResource = painterResource(id = R.drawable.ic_no_offers_promos),
+        title = "No Offers or Promos",
+        subTitle = "You have no active offers or promotions"
     )
-}
+} 
 
 @Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)
 @Composable

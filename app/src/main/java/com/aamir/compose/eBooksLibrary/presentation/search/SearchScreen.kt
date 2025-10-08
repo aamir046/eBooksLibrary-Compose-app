@@ -38,20 +38,20 @@ fun SearchScreenRoot(
     }
 
     SearchScreen(
-        uiState = uiState,
         modifier = Modifier,
+        uiState = uiState,
         onActions = onActions
     )
 }
 
 @Composable
 fun SearchScreen(
-    uiState: SearchScreenState,
     modifier: Modifier = Modifier,
+    uiState: SearchScreenState,
     onActions: (SearchScreenActions) -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
@@ -66,7 +66,7 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         uiState.takeIf {
-            it.searchQuery.isNotEmpty() && it.recentSearches.isNotEmpty()
+            it.searchQuery.isNotEmpty()
         }?.let {
             SearchResultList(
                 modifier = Modifier

@@ -4,9 +4,12 @@ package com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aamir.compose.eBooksLibrary.R
+import com.aamir.compose.eBooksLibrary.core.presentation.EmptyListComposable
 import com.aamir.compose.eBooksLibrary.domain.model.Book
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.favourites.components.FavouriteBooksListing
 
@@ -39,16 +42,25 @@ fun FavouritesScreen(
     uiState: FavouritesScreenState = FavouritesScreenState(),
     actions: (FavouritesScreenActions) -> Unit
 ) {
-    FavouriteBooksListing(
-        modifier = modifier,
-        books = uiState.favouriteBooks,
-        onBookClick = {
-            actions(FavouritesScreenActions.OnBookClick(it))
-        },
-        onFavouritesIconClick = {
-            actions(FavouritesScreenActions.OnFavouritesIconClick(it))
-        }
-    )
+    if(uiState.favouriteBooks.isEmpty()){
+        EmptyListComposable(
+            modifier = modifier,
+            painterResource = painterResource(id = R.drawable.ic_favourites_empty),
+            title = "No Favorites Yet",
+            subTitle = "You haven't marked any favorite",
+        )
+    }else {
+        FavouriteBooksListing(
+            modifier = modifier,
+            books = uiState.favouriteBooks,
+            onBookClick = {
+                actions(FavouritesScreenActions.OnBookClick(it))
+            },
+            onFavouritesIconClick = {
+                actions(FavouritesScreenActions.OnFavouritesIconClick(it))
+            }
+        )
+    }
 }
 
 @Preview(apiLevel = 34, showBackground = true, device = Devices.PIXEL)

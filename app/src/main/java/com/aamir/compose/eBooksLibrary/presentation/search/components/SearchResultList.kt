@@ -10,10 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.aamir.compose.eBooksLibrary.R
+import com.aamir.compose.eBooksLibrary.core.presentation.EmptyListComposable
 import com.aamir.compose.eBooksLibrary.domain.model.Book
 
 @Composable
@@ -32,15 +35,24 @@ fun SearchResultList(
             modifier = Modifier.padding(horizontal =  8.dp)
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(searchResult){book->
-                ItemSearchResultList(
-                    book = book,
-                    onSearchResultSelected = onSearchResultSelected
-                )
+        if(searchResult.isEmpty()){
+            EmptyListComposable(
+                modifier = Modifier,
+                painterResource = painterResource(id = R.drawable.ic_empty_search),
+                title = "No Results Found",
+                subTitle = "Search books by title"
+            )
+        }else{
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(searchResult){book->
+                    ItemSearchResultList(
+                        book = book,
+                        onSearchResultSelected = onSearchResultSelected
+                    )
+                }
             }
         }
     }
