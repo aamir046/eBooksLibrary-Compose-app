@@ -31,6 +31,7 @@ import com.aamir.compose.eBooksLibrary.R
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
 import com.aamir.compose.eBooksLibrary.core.presentation.FormEntry
 import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.components.MyAccountForm
 
 @Composable
 fun MyAccountScreenRoot(
@@ -64,63 +65,21 @@ fun MyAccountScreen(
             .fillMaxSize()
             .background(Gray)
     ) {
-        Column(
+
+        MyAccountForm(
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxWidth()
                 .fillMaxHeight(0.845f)
                 .align(Alignment.BottomCenter),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Spacer(modifier = Modifier.fillMaxHeight(0.14f))
-            FormEntry(
-                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-                title = "Name",
-                label = "Enter name",
-                value = uiState.userInfo?.name ?: "",
-                onValueChange = {
-                    actions.invoke(MyAccountScreenActions.OnNameChange(it))
-                }
-            )
-            FormEntry(
-                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-                title = "Email",
-                label = "Enter email",
-                value = uiState.userInfo?.email ?: "",
-                onValueChange = {
-                    actions.invoke(MyAccountScreenActions.OnEmailChange(it))
-                }
-            )
-            FormEntry(
-                modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-                title = "Phone Number",
-                label = "Enter Phone Number",
-                value = uiState.userInfo?.phoneNumber ?: "",
-                onValueChange = {
-                    actions.invoke(MyAccountScreenActions.OnPhoneNumberChange(it))
-                }
-            )
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .padding(vertical = 40.dp),
-                colors = ButtonColors(
-                    containerColor = Color.DarkGray,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.White
-                ),
-                onClick = {
-                    actions.invoke(MyAccountScreenActions.OnBackClick)
-                }
-            ) {
-                Text(text = "Save Changes")
-            }
-        }
+            name = uiState.userInfo.name,
+            email = uiState.userInfo.email,
+            phoneNumber = uiState.userInfo.phoneNumber,
+            actions = actions
+        )
 
         LoadRemoteImage(
-            url = uiState.userInfo?.imageUrl ?: "",
+            url = uiState.userInfo.imageUrl,
             contentDescription = "Profile Picture",
             modifier = Modifier
                 .padding(top = 40.dp)

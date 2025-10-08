@@ -4,5 +4,6 @@ sealed interface MyAccountScreenActions {
     data class OnNameChange(val name: String) : MyAccountScreenActions
     data class OnEmailChange(val email: String) : MyAccountScreenActions
     data class OnPhoneNumberChange(val phoneNumber: String) : MyAccountScreenActions
+    data object UpdateUserInfo : MyAccountScreenActions
     data object OnBackClick : MyAccountScreenActions
 }
