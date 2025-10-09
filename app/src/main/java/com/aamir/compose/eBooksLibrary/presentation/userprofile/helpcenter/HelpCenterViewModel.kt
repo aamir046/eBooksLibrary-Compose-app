@@ -36,6 +36,7 @@ class HelpCenterViewModel : ViewModel() {
                     userFeedback = it.userFeedback.copy(subject = actions.subject)
                 )
             }
+
             is HelpCenterScreenActions.OnShareFeedback -> {
                 viewModelScope.launch {
                     // validate input and send feedback to a server

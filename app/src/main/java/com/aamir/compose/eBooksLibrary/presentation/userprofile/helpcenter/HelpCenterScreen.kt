@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.core.presentation.FormEntry
 import com.aamir.compose.eBooksLibrary.core.presentation.extensions.showToastMessage
+import com.aamir.compose.eBooksLibrary.presentation.userprofile.helpcenter.components.HelpCenterForm
 
 @Composable
 fun HelpCenterScreenRoot(
@@ -100,51 +101,14 @@ fun HelpCenterScreen(
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
-        FormEntry(
-            modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-            title = "Email",
-            label = "Enter your email",
-            value = uiState.userFeedback.email,
-            onValueChange = {
-                actions.invoke(HelpCenterScreenActions.OnEmailChange(it))
-            }
-        )
-        FormEntry(
-            modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-            title = "Subject",
-            label = "Enter email subject",
-            value = uiState.userFeedback.subject,
-            onValueChange = {
-                actions.invoke(HelpCenterScreenActions.OnSubjectChange(it))
-            }
-        )
-        FormEntry(
-            modifier = Modifier.padding(horizontal = 16.dp,vertical = 8.dp),
-            title = "Description",
-            label = "Enter complete description",
-            value = uiState.userFeedback.description,
-            onValueChange = {
-                actions.invoke(HelpCenterScreenActions.OnDescriptionChange(it))
-            }
-        )
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .padding(vertical = 40.dp)
-                .align(Alignment.CenterHorizontally),
-            colors = ButtonColors(
-                containerColor = Color.DarkGray,
-                contentColor = Color.White,
-                disabledContainerColor = Color.Gray,
-                disabledContentColor = Color.White
-            ),
-            onClick = {
-                actions.invoke(HelpCenterScreenActions.OnShareFeedback)
-            }
-        ) {
-            Text(text = "Share Feedback")
-        }
+        HelpCenterForm(
+            modifier = Modifier.background(Color.White),
+            email = uiState.userFeedback.email,
+            subject = uiState.userFeedback.subject,
+            description = uiState.userFeedback.description,
+            actions = actions
+        )
     }
 }
 
