@@ -37,19 +37,18 @@ fun HomeScreenRoot(
     }
 
     HomeScreen(
-        uiState = uiState,
         modifier = Modifier,
+        uiState = uiState,
         onActions = onActions
     )
 }
 
 @Composable
 fun HomeScreen(
-    uiState: HomeScreenState = HomeScreenState(),
     modifier: Modifier = Modifier,
+    uiState: HomeScreenState = HomeScreenState(),
     onActions: (HomeScreenActions) -> Unit,
 ) {
-
     val scrollState = rememberLazyListState()
 
     Box(

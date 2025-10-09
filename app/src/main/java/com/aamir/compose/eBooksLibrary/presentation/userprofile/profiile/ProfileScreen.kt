@@ -55,8 +55,7 @@ fun ProfileScreen(
     ) {
         UserInfoCard(
             modifier = Modifier,
-            userName = uiState.userName,
-            userEmail = uiState.userEmail
+            userInfo = uiState.userInfo
         )
         Spacer(modifier = Modifier.padding(16.dp))
         uiState.profileListingItems.forEach {

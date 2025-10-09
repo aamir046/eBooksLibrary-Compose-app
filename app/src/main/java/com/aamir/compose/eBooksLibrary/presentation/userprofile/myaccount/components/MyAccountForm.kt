@@ -1,6 +1,5 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,6 +9,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +28,8 @@ fun MyAccountForm(
     phoneNumber: String = "",
     actions: (MyAccountScreenActions) -> Unit
 ) {
+    var isFormEntryChanged by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -37,6 +42,8 @@ fun MyAccountForm(
             value = name,
             onValueChange = {
                 actions.invoke(MyAccountScreenActions.OnNameChange(it))
+                if(!isFormEntryChanged)
+                    isFormEntryChanged = true
             }
         )
         FormEntry(
@@ -46,6 +53,8 @@ fun MyAccountForm(
             value = email,
             onValueChange = {
                 actions.invoke(MyAccountScreenActions.OnEmailChange(it))
+                if(!isFormEntryChanged)
+                    isFormEntryChanged = true
             }
         )
         FormEntry(
@@ -55,6 +64,8 @@ fun MyAccountForm(
             value = phoneNumber,
             onValueChange = {
                 actions.invoke(MyAccountScreenActions.OnPhoneNumberChange(it))
+                if(!isFormEntryChanged)
+                    isFormEntryChanged = true
             }
         )
 
@@ -65,11 +76,12 @@ fun MyAccountForm(
             colors = ButtonColors(
                 containerColor = Color.DarkGray,
                 contentColor = Color.White,
-                disabledContainerColor = Color.Gray,
+                disabledContainerColor = Color.LightGray,
                 disabledContentColor = Color.White
             ),
+            enabled = isFormEntryChanged,
             onClick = {
-                actions.invoke(MyAccountScreenActions.UpdateUserInfo)
+                actions.invoke(MyAccountScreenActions.OnUpdateUserInfo)
             }
         ) {
             Text(text = "Save Changes")

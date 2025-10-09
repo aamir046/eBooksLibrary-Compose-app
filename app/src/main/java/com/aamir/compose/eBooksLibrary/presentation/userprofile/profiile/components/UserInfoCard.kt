@@ -24,14 +24,15 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.R
+import com.aamir.compose.eBooksLibrary.core.presentation.LoadLocalUriImage
 import com.aamir.compose.eBooksLibrary.core.presentation.LoadRemoteImage
+import com.aamir.compose.eBooksLibrary.domain.model.UserInfo
 import com.aamir.compose.eBooksLibrary.presentation.theme.Gray
 
 @Composable
 fun UserInfoCard(
     modifier: Modifier = Modifier,
-    userName: String = "",
-    userEmail:String = ""
+    userInfo: UserInfo
 ){
     Column(
         modifier = modifier
@@ -45,8 +46,8 @@ fun UserInfoCard(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LoadRemoteImage(
-                url = "",
+            LoadLocalUriImage(
+                url = userInfo.imageUrl,
                 contentDescription = "Profile Picture",
                 modifier = Modifier
                     .shadow(elevation = 8.dp, shape = CircleShape)
@@ -58,19 +59,26 @@ fun UserInfoCard(
                 placeholderRes = R.drawable.ic_pofile_deafult
             )
             Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(start = 16.dp)
             ) {
                 Text(
-                    text = userName,
+                    text = userInfo.name,
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.DarkGray,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Text(
-                    text = userEmail,
+                    text = userInfo.email.ifBlank { "Email not set" },
                     style = MaterialTheme.typography.labelLarge,
-                    color = Color.LightGray,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = userInfo.phoneNumber.ifBlank { "Phone not set" },
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color.Gray,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -86,7 +94,6 @@ fun UserInfoCard(
 fun UserInfoCardPreview() {
     UserInfoCard(
         modifier = Modifier,
-        userName = "Muhammad Aamir",
-        userEmail = "mhd.aamir046@gmail.com"
+        userInfo = UserInfo()
     )
 }

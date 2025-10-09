@@ -12,16 +12,19 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aamir.compose.eBooksLibrary.core.presentation.FormEntry
-import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountScreenActions
+import com.aamir.compose.eBooksLibrary.core.presentation.extensions.showToastMessage
 
 @Composable
 fun HelpCenterScreenRoot(
@@ -29,11 +32,24 @@ fun HelpCenterScreenRoot(
     onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
-    val actions: (HelpCenterScreenActions) -> Unit = { action ->
-        when (action) {
-            is HelpCenterScreenActions.OnBackClick -> onBackClick()
-            else -> viewModel.onAction(action)
+
+    val actions: (HelpCenterScreenActions) -> Unit = remember {
+        { action ->
+            when (action) {
+                is HelpCenterScreenActions.OnBackClick -> onBackClick()
+                else -> viewModel.onAction(action)
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvents.collect { event ->
+            when (event) {
+                is HelpCenterScreenUiEvent.ShowMessage -> context.showToastMessage(event.message)
+                is HelpCenterScreenUiEvent.NavigateBack -> onBackClick()
+            }
         }
     }
 
@@ -124,7 +140,7 @@ fun HelpCenterScreen(
                 disabledContentColor = Color.White
             ),
             onClick = {
-                actions.invoke(HelpCenterScreenActions.OnBackClick)
+                actions.invoke(HelpCenterScreenActions.OnShareFeedback)
             }
         ) {
             Text(text = "Share Feedback")

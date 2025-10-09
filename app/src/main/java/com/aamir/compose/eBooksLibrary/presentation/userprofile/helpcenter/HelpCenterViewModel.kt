@@ -2,22 +2,20 @@ package com.aamir.compose.eBooksLibrary.presentation.userprofile.helpcenter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class HelpCenterViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(HelpCenterScreenState())
-    val uiState = _uiState.onStart {
+    val uiState = _uiState.asStateFlow()
 
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        _uiState.value
-    )
+    private val _uiEvents = MutableSharedFlow<HelpCenterScreenUiEvent>()
+    val uiEvents = _uiEvents.asSharedFlow()
 
     fun onAction(actions: HelpCenterScreenActions) {
         when (actions) {
@@ -37,6 +35,13 @@ class HelpCenterViewModel : ViewModel() {
                 it.copy(
                     userFeedback = it.userFeedback.copy(subject = actions.subject)
                 )
+            }
+            is HelpCenterScreenActions.OnShareFeedback -> {
+                viewModelScope.launch {
+                    // validate input and send feedback to a server
+                    _uiEvents.emit(HelpCenterScreenUiEvent.ShowMessage("Feedback submitted"))
+                    _uiEvents.emit(HelpCenterScreenUiEvent.NavigateBack)
+                }
             }
 
             else -> {}
