@@ -1,5 +1,10 @@
 package com.aamir.compose.eBooksLibrary.domain.di
 
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.AddressUseCases
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.DeleteAddressUseCase
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.GetAllAddressesUseCase
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.SaveAddressUseCase
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.UpdateAddressUseCase
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.DeleteFavouriteBookUseCase
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.FavoriteUseCases
 import com.aamir.compose.eBooksLibrary.domain.interactor.book.GetBooksUseCase
@@ -37,6 +42,20 @@ val domainModule = module {
         UserInfoUseCases(
             getUserInfoUseCase = get(),
             insertUserInfoUseCase = get(),
+        )
+    }
+
+    //user info use cases
+    factory { GetAllAddressesUseCase(get()) }
+    factory { SaveAddressUseCase(get()) }
+    factory { DeleteAddressUseCase(get()) }
+    factory { UpdateAddressUseCase(get()) }
+    factory {
+        AddressUseCases(
+            getAllAddressesUseCase = get(),
+            saveAddressUseCase = get(),
+            deleteAddressUseCase = get(),
+            updateAddressUseCase = get()
         )
     }
 

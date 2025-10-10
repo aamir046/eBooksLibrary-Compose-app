@@ -49,18 +49,19 @@ fun AddressScreenRoot(
     onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val goeCoder = remember { Geocoder(context, Locale.getDefault()) }
+    var hasPermission by remember { mutableStateOf(false) }
 
-    val actions: (AddressAction) -> Unit = { action ->
-        viewModel.onAction(action)
+    val actions: (AddressAction) -> Unit = remember {
+        { action ->
+            viewModel.onAction(action)
+        }
     }
-
-    val goeCoder = Geocoder(LocalContext.current, Locale.getDefault())
 
     LaunchedEffect(Unit) {
         viewModel.setGeocoder(goeCoder)
     }
-
-    var hasPermission by remember { mutableStateOf(false) }
 
     if (!hasPermission) {
         PermissionHandler(
@@ -119,7 +120,6 @@ fun AddressScreen(
     }
 
     Column {
-
         MapViewWithLocation(
             modifier = modifier
                 .height(200.dp)

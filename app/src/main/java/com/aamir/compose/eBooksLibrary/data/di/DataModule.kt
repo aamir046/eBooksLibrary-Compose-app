@@ -2,12 +2,15 @@ package com.aamir.compose.eBooksLibrary.data.di
 
 import androidx.room.Room
 import com.aamir.compose.eBooksLibrary.data.local.database.AppDatabase
+import com.aamir.compose.eBooksLibrary.data.local.datasource.AddressLocalDataSource
 import com.aamir.compose.eBooksLibrary.data.local.datasource.BookLocalDataSource
 import com.aamir.compose.eBooksLibrary.data.local.datasource.UserInfoLocalDataSource
 import com.aamir.compose.eBooksLibrary.data.remote.api.BookApi
 import com.aamir.compose.eBooksLibrary.data.remote.datasource.BookRemoteDataSource
+import com.aamir.compose.eBooksLibrary.data.repository.AddressRepositoryImpl
 import com.aamir.compose.eBooksLibrary.data.repository.BookRepositoryImpl
 import com.aamir.compose.eBooksLibrary.data.repository.UserInfoRepositoryImpl
+import com.aamir.compose.eBooksLibrary.domain.repository.IAddressRepository
 import com.aamir.compose.eBooksLibrary.domain.repository.IBookRepository
 import com.aamir.compose.eBooksLibrary.domain.repository.IUserInfoRepository
 import org.koin.android.ext.koin.androidContext
@@ -23,17 +26,24 @@ val dataModule = module {
         ).build()
     }
 
-    // --- Local ---
+    // --- Dao ---
     single { get<AppDatabase>().bookDao() }
     single { get<AppDatabase>().userDao() }
+    single { get<AppDatabase>().addressDao() }
+
+    // --- Local DataSources ---
     single { BookLocalDataSource(get()) }
     single { UserInfoLocalDataSource(get()) }
+    single { AddressLocalDataSource(get()) }
 
     // --- Network ---
-    single { BookRemoteDataSource(get()) }
     single { BookApi() }
+
+    // --- Remote DataSources ---
+    single { BookRemoteDataSource(get()) }
 
     // --- Repository ---
     single<IBookRepository> { BookRepositoryImpl(get(), get()) }
     single<IUserInfoRepository> { UserInfoRepositoryImpl(get()) }
+    single<IAddressRepository> { AddressRepositoryImpl(get()) }
 }
