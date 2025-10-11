@@ -21,7 +21,4 @@ class AddressRepositoryImpl(
     override suspend fun deleteAddress(address: Address) =
         local.deleteAddress(address.toEntity())
 
-    override suspend fun updateAddress(address: Address) =
-        local.updateAddress(address.toEntity())
-
 }

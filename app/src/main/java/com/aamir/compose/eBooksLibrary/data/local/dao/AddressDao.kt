@@ -18,9 +18,6 @@ interface AddressDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAddress(address: AddressEntity)
 
-    @Update
-    suspend fun updateAddress(address: AddressEntity)
-
     @Delete
     suspend fun deleteAddress(address: AddressEntity)
 }

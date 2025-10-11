@@ -1,48 +1,79 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.address
 
-import AddressModel
 import android.location.Geocoder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aamir.compose.eBooksLibrary.domain.interactor.address.AddressUseCases
+import com.aamir.compose.eBooksLibrary.domain.model.Address
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import org.osmdroid.util.GeoPoint
 import java.io.IOException
 
-class AddressViewModel : ViewModel() {
+class AddressViewModel(
+    private val addressUseCases: AddressUseCases
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddressScreenState())
     val uiState: StateFlow<AddressScreenState> = _uiState.asStateFlow()
     private lateinit var geocoder: Geocoder
 
-    fun onAction(action: AddressAction) {
-        when (action) {
-            is AddressAction.UpdateAddress -> {
+    init {
+        getAllSavedAddresses()
+    }
+
+    private fun getAllSavedAddresses() {
+        viewModelScope.launch {
+            addressUseCases.getAllAddressesUseCase()
+                .flowOn(Dispatchers.IO)
+                .collect { addresses ->
                 _uiState.update {
-                    it.copy(currentAddress = action.address, selectedAddress = null)
+                    it.copy(savedAddresses = addresses)
                 }
             }
+        }
+    }
 
-            is AddressAction.LocationSelected -> {
+    private fun saveAddress(address: Address) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addressUseCases.saveAddressUseCase(address)
+        }
+    }
+
+    private fun deleteAddress(address: Address) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addressUseCases.deleteAddressUseCase(address)
+        }
+    }
+
+    fun onAction(action: AddressAction) {
+        when (action) {
+            is AddressAction.OnSaveAddress -> {
+                saveAddress(action.address)
+            }
+
+            is AddressAction.OnMapLocationSelected -> {
                 viewModelScope.launch {
-                    val selectedAddress: AddressModel = getAddressFromLocation(action.addressGeoPoint)
+                    val selectedAddress: Address = getAddressFromLocation(action.addressGeoPoint)
                     _uiState.update {
-                        it.copy(selectedAddress = selectedAddress)
+                        it.copy(bottomSheetAddress = selectedAddress)
                     }
                 }
             }
 
-            is AddressAction.CenterOnUserLocation -> {
-
+            is AddressAction.OnUpdateBottomSheetAddress -> {
+                _uiState.update {
+                    it.copy(bottomSheetAddress = action.address)
+                }
             }
 
-           is AddressAction.DismissBottomSheet -> {
+            is AddressAction.OnCenterOnUserLocation -> {
 
             }
         }
@@ -52,12 +83,12 @@ class AddressViewModel : ViewModel() {
         geocoder = geo
     }
 
-    private suspend fun getAddressFromLocation(point: GeoPoint): AddressModel {
+    private suspend fun getAddressFromLocation(point: GeoPoint): Address {
         return withContext(Dispatchers.IO){
             try {
                 val addresses = geocoder.getFromLocation(point.latitude, point.longitude, 1)
                 val addressLine = addresses?.firstOrNull()?.getAddressLine(0) ?: "Unknown"
-                AddressModel(
+                Address(
                     title = "Address 1",
                     fullAddress = addressLine,
                     latitude = point.latitude,
@@ -65,7 +96,7 @@ class AddressViewModel : ViewModel() {
                 )
             } catch (e: IOException) {
                 e.printStackTrace()
-                AddressModel(
+                Address(
                     title = "Address 1",
                     fullAddress = "Unable to fetch address",
                     latitude = point.latitude,

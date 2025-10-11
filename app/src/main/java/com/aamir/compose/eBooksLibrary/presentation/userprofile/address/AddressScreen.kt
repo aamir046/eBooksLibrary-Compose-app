@@ -1,6 +1,5 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.address
 
-import AddressModel
 import android.location.Geocoder
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,10 +8,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -93,14 +96,6 @@ fun AddressScreen(
     val bottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showSheet by remember { mutableStateOf(false) }
-    var editableAddress by remember { mutableStateOf<AddressModel?>(null) }
-
-    LaunchedEffect(uiState.selectedAddress) {
-        uiState.selectedAddress?.let { address ->
-            editableAddress = address
-            showSheet = true
-        }
-    }
 
     if (showSheet) {
         ModalBottomSheet(
@@ -109,9 +104,9 @@ fun AddressScreen(
             containerColor = Color.White,
         ) {
             AddressDetailsBottomSheet(
-                address = editableAddress?: AddressModel(),
-                onConfirm = { addressModel ->
-                    actions.invoke(AddressAction.UpdateAddress(addressModel))
+                address = uiState.bottomSheetAddress,
+                onSaveAddress = { address ->
+                    actions.invoke(AddressAction.OnSaveAddress(address))
                     scope.launch { bottomSheetState.hide() }
                     showSheet = false
                 }
@@ -125,7 +120,8 @@ fun AddressScreen(
                 .height(200.dp)
                 .padding(horizontal = 16.dp, vertical = 10.dp),
             onLocationSelected = { geoPoint ->
-                actions(AddressAction.LocationSelected(geoPoint))
+                actions(AddressAction.OnMapLocationSelected(geoPoint))
+                showSheet = true
             }
         )
 
@@ -134,7 +130,10 @@ fun AddressScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            colors =  CardDefaults.cardColors(
+                containerColor = Color(0xFFF5F5F5)
+            )
         ) {
             Column(Modifier.padding(16.dp)) {
                 Row(
@@ -144,16 +143,22 @@ fun AddressScreen(
                 ) {
                     Text("Address Details", style = MaterialTheme.typography.titleMedium)
                     IconButton(onClick = {
-                        editableAddress = AddressModel()
                         showSheet = true
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add Address Manually")
                     }
                 }
-                uiState.currentAddress?.let {
-                    Text(it.title, fontWeight = FontWeight.Bold)
-                    Text(it.fullAddress)
-                } ?: Text("Long Press on map to add address.")
+
+                if(uiState.savedAddresses.isEmpty()){
+                    Text("Long Press on map to add address.")
+                }else{
+                    LazyColumn {
+                        items(uiState.savedAddresses){address->
+                            Text(address.title, fontWeight = FontWeight.Bold)
+                            Text(address.fullAddress)
+                        }
+                    }
+                }
             }
         }
     }

@@ -7,5 +7,4 @@ class AddressLocalDataSource(private val dao: AddressDao) {
     fun getAllAddresses() = dao.getAllAddresses()
     suspend fun insertAddress(address: AddressEntity) = dao.insertAddress(address)
     suspend fun deleteAddress(address: AddressEntity) = dao.deleteAddress(address)
-    suspend fun updateAddress(address: AddressEntity) = dao.updateAddress(address)
 }

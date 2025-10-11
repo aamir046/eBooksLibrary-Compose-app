@@ -1,9 +1,9 @@
 package com.aamir.compose.eBooksLibrary.presentation.userprofile.address
 
-import AddressModel
+import com.aamir.compose.eBooksLibrary.domain.model.Address
 
 data class AddressScreenState(
-    val currentAddress: AddressModel? = null,
-    val selectedAddress: AddressModel? = null,
+    val bottomSheetAddress: Address = Address(),
+    val savedAddresses: List<Address> = emptyList(),
     val showBottomSheet: Boolean = false
 )

@@ -33,10 +33,10 @@ val appModule = module {
     viewModelOf(::FavouritesViewModel)
     viewModelOf(::MyAccountViewModel)
     viewModelOf(::ProfileViewModel)
+    viewModelOf(::AddressViewModel)
     viewModel { SharedViewModel() }
     viewModel { NotificationsViewModel() }
     viewModel { AuthorDetailsViewModel() }
-    viewModel { AddressViewModel() }
     viewModel { OffersAndPromosViewModel() }
     viewModel { HelpCenterViewModel() }
 }

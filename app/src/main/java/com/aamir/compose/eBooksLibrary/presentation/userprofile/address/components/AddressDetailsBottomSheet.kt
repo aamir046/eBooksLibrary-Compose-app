@@ -29,18 +29,28 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aamir.compose.eBooksLibrary.core.presentation.FormEntry
+import com.aamir.compose.eBooksLibrary.domain.model.Address
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressScreen
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.address.AddressScreenState
 import com.aamir.compose.eBooksLibrary.presentation.userprofile.myaccount.MyAccountScreenActions
 
 @Composable
 fun AddressDetailsBottomSheet(
-    address: AddressModel,
-    onConfirm: (AddressModel) -> Unit
+    address: Address = Address(),
+    onSaveAddress: (Address) -> Unit
 ) {
     var title by remember { mutableStateOf(address.title) }
     var fullAddress by remember { mutableStateOf(address.fullAddress) }
-    var selectedTag by remember { mutableStateOf(address.tag) }
+    var selectedTag by remember { mutableStateOf(address.addressTag) }
+    val addressTags by remember {
+        mutableStateOf(
+            listOf(
+                "Home",
+                "Office",
+                "None"
+            )
+        )
+    }
 
     Column(
         Modifier.padding(16.dp)
@@ -71,25 +81,25 @@ fun AddressDetailsBottomSheet(
                 .padding(vertical = 8.dp)
                 .fillMaxWidth()
         ) {
-            listOf(AddressTag.Home, AddressTag.Office, AddressTag.None).forEach { tag ->
+            addressTags.forEach { addressTag ->
                 Button(
-                    onClick = { selectedTag = tag },
+                    onClick = { selectedTag = addressTag },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedTag == tag) Color.Black else Color.Gray
+                        containerColor = if (selectedTag == addressTag) Color.Black else Color.Gray
                     )
                 ) {
-                    Text(text = tag.name, color = Color.White)
+                    Text(text = addressTag, color = Color.White)
                 }
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                onConfirm(
+                onSaveAddress(
                     address.copy(
                         title = title,
                         fullAddress = fullAddress,
-                        tag = selectedTag
+                        addressTag = selectedTag
                     )
                 )
             },
@@ -99,11 +109,11 @@ fun AddressDetailsBottomSheet(
             colors = ButtonColors(
                 containerColor = Color.Black,
                 contentColor = Color.White,
-                disabledContainerColor = Color.Unspecified,
-                disabledContentColor = Color.Unspecified
+                disabledContainerColor = Color.White,
+                disabledContentColor = Color.LightGray
             )
         ) {
-            Text("Confirm")
+            Text("save address")
         }
     }
 }
@@ -112,7 +122,7 @@ fun AddressDetailsBottomSheet(
 @Composable
 fun AddressDetailsBottomSheetPreview() {
     AddressDetailsBottomSheet(
-        address = AddressModel(),
-        onConfirm = {},
+        address = Address(),
+        onSaveAddress = {}
     )
 }
