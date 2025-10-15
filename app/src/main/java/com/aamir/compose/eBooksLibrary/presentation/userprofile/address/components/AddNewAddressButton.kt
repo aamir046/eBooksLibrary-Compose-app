@@ -1,0 +1,32 @@
+package com.aamir.compose.eBooksLibrary.presentation.userprofile.address.components
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun AddNewAddressButton(
+    modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit
+) {
+    FloatingActionButton(
+        modifier = modifier
+            .padding(16.dp),
+        containerColor = Color.DarkGray,
+        contentColor = Color.White,
+        shape = CircleShape,
+        onClick = {
+            onButtonClick.invoke()
+        }
+    ) {
+        Icon(Icons.Default.Add, contentDescription = "Add Address")
+    }
+}

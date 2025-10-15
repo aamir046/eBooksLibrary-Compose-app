@@ -44,7 +44,7 @@ val domainModule = module {
         )
     }
 
-    //user info use cases
+    //user User address cases
     factory { GetAllAddressesUseCase(get()) }
     factory { SaveAddressUseCase(get()) }
     factory { DeleteAddressUseCase(get()) }

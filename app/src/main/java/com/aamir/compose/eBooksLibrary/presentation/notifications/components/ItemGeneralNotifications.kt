@@ -35,12 +35,7 @@ fun ItemGeneralNotifications(
             .fillMaxWidth()
             .padding(bottom = 8.dp)
             .wrapContentSize(),
-        colors = CardColors(
-            containerColor = Color.White,
-            contentColor = Color.Unspecified,
-            disabledContainerColor = Color.Unspecified,
-            disabledContentColor = Color.Unspecified,
-        ),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(0.5.dp, Color.LightGray),
         elevation = CardDefaults.cardElevation(2.dp)
 
